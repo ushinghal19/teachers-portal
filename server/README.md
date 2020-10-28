@@ -1,4 +1,4 @@
-Data Gathering:
+## Data Gathering:
 
 Incoming Data Points:
   - Assignment ID
