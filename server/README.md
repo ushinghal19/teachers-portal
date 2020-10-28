@@ -1,13 +1,13 @@
 ## Data Gathering:
 
-Incoming Data Points:
+# Incoming Data Points:
   - Assignment ID
   - Student Name
   - Type of Error (broken)
   - The # of Errors
   - Question #
  
-Statistics to gather:
+# Statistics to gather:
    1. Total # of errors by student over the assignment.
       => Aggregated into the total # of all student errors in the assignment. (Scalar)
    2. Total # of errors by students on a question
