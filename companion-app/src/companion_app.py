@@ -18,7 +18,11 @@ def connect(sid: int, environ: dict) -> None:
 
 
 @sio.on('expressions')
+<<<<<<< HEAD
 def message_expressions(sid: int, data: str) -> None:
+=======
+def message_expressions(sid, data: str):
+>>>>>>> 70404871d57467ee2e94401af8bb69ff94dbe44c
     """Handler method to process `expression` events from the Hypatia API"""
     print('expressions:\n', data)
     record = json.loads(data)
@@ -28,7 +32,11 @@ def message_expressions(sid: int, data: str) -> None:
 
 
 @sio.on('result')
+<<<<<<< HEAD
 def message_result(sid: int, data: str) -> None:
+=======
+def message_result(sid, data):
+>>>>>>> 70404871d57467ee2e94401af8bb69ff94dbe44c
     """Handler method to process `result` events from the Hypatia API"""
     print('result:\n', data)
     record = json.loads(data)
