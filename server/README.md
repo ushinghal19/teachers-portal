@@ -4,7 +4,7 @@ Incoming Data Points:
   - Assignment ID
   - Student Name
   - Type of Error (broken)
-  - # of Errors
+  - The # of Errors
   - Question #
  
 Statistics to gather:
