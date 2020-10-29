@@ -8,7 +8,7 @@
   - Question #
  
 ## Statistics to gather:
-   1. Total # of errors by student over the assignment.
+   1. Total # of errors by student over the assignment. **(Priority Statistic)**
       * Aggregated into the total # of all student errors in the assignment. (Scalar)
    2. Total # of errors by students on a question
       * Aggregated into the total # of all student errors for that question. (Bar Graph) IV: Question, DV: # of Errors
