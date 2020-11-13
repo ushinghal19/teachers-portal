@@ -10,7 +10,7 @@ def aggregateErrors(assignment: Assignment) -> int:
         assignment
 
     """
-    return sum(len(problem) for problem in assignment.problems)
+    return sum(len(problem.errors) for problem in assignment.problems)
 
 
 # Per Problem Error:
