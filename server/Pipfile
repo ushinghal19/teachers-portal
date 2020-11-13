@@ -10,6 +10,7 @@ django = "*"
 djongo = "*"
 python-dotenv = "*"
 dnspython = "*"
+graphene-django = ">=2.0"
 
 [requires]
 python_version = "3.8"
