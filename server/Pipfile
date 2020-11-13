@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django = "*"
 djongo = "*"
+python-dotenv = "*"
+dnspython = "*"
 
 [requires]
 python_version = "3.8"

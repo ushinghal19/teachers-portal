@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+# loading dotenv vila
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,14 +80,14 @@ WSGI_APPLICATION = 'tp_server.wsgi.application'
 DATABASES = {
           'default': {
             'ENGINE': 'djongo',
-            'NAME': 'your-db-name',
+            'NAME': 'TP',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'cluster0.kh0v7.mongodb.net',
-                'port': 1,  # TODO: Add Port Number
-                'username': 'd12',
-                'password': 'password',
-                'authSource': 'db-name',
+                'host': 'mongodb+srv://cluster0.kh0v7.mongodb.net',
+                # 'port': 27017,
+                'username': os.getenv("MONGO_USERNAME"),
+                'password': os.getenv("MONGO_PASSWORD"),
+                'authSource': 'TP',
                 'authMechanism': 'SCRAM-SHA-1'
             },
             'LOGGING': {
