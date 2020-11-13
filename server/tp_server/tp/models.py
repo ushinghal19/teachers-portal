@@ -15,7 +15,7 @@ class Problem(models.Model):
 
 class Assignment(models.Model):
     assignment_id = models.PositiveSmallIntegerField(primary_key = True)
-    questions = models.ArrayField(
+    problems = models.ArrayField(
         model_container = Problem
     )
 
