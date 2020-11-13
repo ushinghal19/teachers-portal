@@ -74,10 +74,28 @@ WSGI_APPLICATION = 'tp_server.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+          'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'your-db-name',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'cluster0.kh0v7.mongodb.net',
+                'port': 1,  # TODO: Add Port Number
+                'username': 'd12',
+                'password': 'password',
+                'authSource': 'db-name',
+                'authMechanism': 'SCRAM-SHA-1'
+            },
+            'LOGGING': {
+                'version': 1,
+                'loggers': {
+                    'djongo': {
+                        'level': 'DEBUG',
+                        'propagate': False,
+                    }
+                },
+             },
+        }
 }
 
 
