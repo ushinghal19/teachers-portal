@@ -8,6 +8,7 @@ sio = socketio.Server(cors_allowed_origins='*')
 app = socketio.WSGIApp(sio)
 
 TEST_ENDPOINT = r'https://hookb.in/lJPDz0kkRYcrXXZWdpgN'
+PROD_ENDPOINT = r''
 
 @sio.event
 def connect(sid: int, environ: dict) -> None:
@@ -20,11 +21,11 @@ def connect(sid: int, environ: dict) -> None:
 @sio.on('expressions')
 def message_expressions(sid: int, data: str) -> None:
     """Handler method to process `expression` events from the Hypatia API"""
-    print('expressions:\n', data)
+    # print('expressions:\n', data)
     record = json.loads(data)
-    # TODO: Decide what to do with the expressions
-    r = requests.post(TEST_ENDPOINT, data=data)
-    print(r.text)
+    print(f'Received and ignored expression of mathid {record.mathid}')
+    # r = requests.post(TEST_ENDPOINT, data=data)
+    # print(r.text)
 
 
 @sio.on('result')
