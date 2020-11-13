@@ -49,7 +49,7 @@ def typeOfErrors(assignment: Assignment) -> dict:
     return errors
 
 # Best Students and Worst Students:
-def studentsByErrors(assignment) -> list:
+def studentsByErrors(assignment: Assignment) -> list:
     """ Takes an assigment object and creates a
         sorted list of students ranked by how few
         to how many errors they made based on the #
