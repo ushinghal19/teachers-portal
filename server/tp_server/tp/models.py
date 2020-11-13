@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Error(models.Model):
-    error_id = models.PositiveBigIntegerField()
+    error_id = models.CharField(max_length=1000)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
 
