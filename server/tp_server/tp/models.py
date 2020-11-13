@@ -7,8 +7,8 @@ class Error(models.Model):
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
 
-class Question(models.Model):
-    question_number = models.PositiveSmallIntegerField()
+class Problem(models.Model):
+    problem_id = models.PositiveSmallIntegerField()
     errors = models.ArrayField(
         model_container = Error
     )
@@ -16,7 +16,7 @@ class Question(models.Model):
 class Assignment(models.Model):
     assignment_id = models.PositiveSmallIntegerField()
     questions = models.ArrayField(
-        model_container = Question
+        model_container = Problem
     )
 
 class Teacher(models.Model):
