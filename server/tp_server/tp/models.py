@@ -7,6 +7,7 @@ class Error(models.Model):
     id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
+    #TODO: What do we do if we want to create an Error ourselves. How do we generate an ID?
 
 
 class Problem(models.Model):

@@ -18,9 +18,29 @@ class HypatiaErrorType(DjangoObjectType):
         filter_fields = ['id', 'error_type', 'student_name']
 
 
-class HypatiaErrorMutation(graphene.Mutation):
+class HypatiaErrorMutationCreate(graphene.Mutation):
     """
     Mutation for Errors from Hypatia.
+    """
+    class Arguments:
+        error_type = graphene.String()
+        student_name = graphene.String()
+
+    error = graphene.Field(HypatiaErrorType)
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        """
+        Takes optional additional Error fields and creates a new error.
+        """
+        error = Error(kwargs)
+        error.save()
+        return cls(error=error)
+
+
+class HypatiaErrorMutationWithID(graphene.Mutation):
+    """
+    Mutation for Errors from Hypatia, when you specify an ID (from the Hypatia Companion App).
     """
     class Arguments:
         id = graphene.String()
@@ -38,6 +58,25 @@ class HypatiaErrorMutation(graphene.Mutation):
         error, created = Error.objects.update_or_create(pk=id,
                                                         defaults=kwargs)
         return cls(error=error)
+
+
+class HypatiaErrorUpdate(HypatiaErrorMutationWithID):
+    """
+    Updates specified fields for Hypatia Errors from Hypatia, when you specify an ID.
+    """
+
+    @classmethod
+    def mutate(cls, root, info, id: str, **kwargs):
+        """
+        Requires an ID method. Takes optional additional Error fields and performs update.
+        """
+        error = Error.objects.get(pk=id)
+        if kwargs.get("error_type"):
+            error.error_type = kwargs.get("error_type")
+        if kwargs.get("student_name"):
+            error.error_type = kwargs.get("student_name")
+        return cls(error=error)
+
 
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
@@ -65,7 +104,9 @@ class Mutation(graphene.ObjectType):
     """
     Defines all Mutations for this Queryt
     """
-    create_new_error = HypatiaErrorMutation.Field()
+    create_new_error = HypatiaErrorMutationCreate.Field()
+    create_new_error_with_id = HypatiaErrorMutationWithID.Field()
+    update_error = HypatiaErrorUpdate.Field()
 
 
 # ======================== REGISTER QUERY & MUTATION CLASSES =======================================
