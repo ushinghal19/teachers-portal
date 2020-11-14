@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './LoginPage.scss'
 import LoginForm from './Login.js'
+import wave from '../../assets/wave.svg'
 
 class LoginPage extends Component {
     render() {
         return (
         <div className="LoginPage">
+            <img src={wave} className="Login-wave" alt="waves" />
             <header className="tp-head">
                 <h1>Hypatia Teacher's Portal</h1>
             </header>
             <br/>
             <LoginForm/>
+            
         </div>
     );
     }
