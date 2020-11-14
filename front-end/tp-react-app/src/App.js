@@ -19,10 +19,6 @@ function App() {
           Learn React
         </a>
       </header>
-      <Login/>
-      <p>
-        Not part of the component
-      </p>
     </div>
   );
 }
