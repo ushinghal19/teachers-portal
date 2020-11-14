@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.scss';
 import Login from './components/login/Login.js'
+import MostErrors from './components/dashboard/MostErrors.js'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <MostErrors student1="Utsav"/>
     </div>
   );
 }
