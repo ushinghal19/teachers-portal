@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.scss';
+import Login from './components/login/Login.js'
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <Login/>
+      <p>
+        Not part of the component
+      </p>
     </div>
   );
 }
