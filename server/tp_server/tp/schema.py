@@ -74,7 +74,8 @@ class HypatiaErrorUpdate(HypatiaErrorMutationWithID):
         if kwargs.get("error_type"):
             error.error_type = kwargs.get("error_type")
         if kwargs.get("student_name"):
-            error.error_type = kwargs.get("student_name")
+            error.student_name = kwargs.get("student_name")
+        error.save()
         return cls(error=error)
 
 
