@@ -25,7 +25,7 @@ def problemErrors(assignment: Assignment) -> dict:
     problemNumber = 1
 
     for problem in assignment.problems:
-        for error in problem:
+        for error in problem.errors:
             countError += 1
         problems[problemNumber] = countError
         problemNumber += 1
@@ -41,7 +41,7 @@ def typeOfErrors(assignment: Assignment) -> dict:
 
     errors = {}
     for problem in assignment.problems:
-        for error in problem:
+        for error in problem.errors:
             if error in errors:
                 errors[error] += 1
             else:
@@ -57,7 +57,7 @@ def studentsByErrors(assignment: Assignment) -> list:
     """
     students = {}
     for problem in assignment.problems:
-        for error in problem:
+        for error in problem.errors:
             if error.student_name in students:
                 students[error.student_name] += 1
             else:
