@@ -1,0 +1,22 @@
+.LoginBox{
+    position: relative;
+    text-align: center;
+    margin: auto;
+    width: 724px;
+    height: 443px;
+    background: #FFFFFF;
+    box-shadow: 0px 167.485px 133.988px rgba(0, 0, 0, 0.07), 0px 69.9711px 55.9769px rgba(0, 0, 0, 0.0503198), 0px 37.4099px 29.9279px rgba(0, 0, 0, 0.0417275), 0px 20.9717px 16.7773px rgba(0, 0, 0, 0.035), 0px 11.1379px 8.91032px rgba(0, 0, 0, 0.0282725), 0px 4.63473px 3.70778px rgba(0, 0, 0, 0.0196802);
+    border-radius: 50.2454px;
+}
+
+.form-group{
+    text-align: left;
+}
+
+.LoginContent{
+    position: absolute;
+    vertical-align: top;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
