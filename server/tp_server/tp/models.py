@@ -1,5 +1,5 @@
 from django.db import models
-
+from djongo.models.fields import ArrayField
 
 # Create your models here.
 
@@ -11,20 +11,20 @@ class Error(models.Model):
 
 class Problem(models.Model):
     id = models.PositiveSmallIntegerField(primary_key=True)
-    errors = models.ArrayField(
+    errors = ArrayField(
         model_container=Error
     )
 
 
 class Assignment(models.Model):
     assignment_id = models.PositiveSmallIntegerField(primary_key = True)
-    problems = models.ArrayField(
+    problems = ArrayField(
         model_container=Problem
     )
 
 
 class Teacher(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
-    assignments = models.ArrayField(
+    assignments = ArrayField(
         model_container=Assignment
     )
