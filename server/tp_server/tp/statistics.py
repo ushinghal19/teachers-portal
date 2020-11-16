@@ -64,19 +64,28 @@ def typeOfErrors(assignment: int) -> dict:
     # return errors
 
 # Best Students and Worst Students:
-def studentsByErrors(assignment: Assignment) -> list:
-    """ Takes an assigment object and creates a
+def studentsByErrors(assignment: int) -> list:
+    """ Takes an assigment id (int) and creates a
         sorted list of students ranked by how few
         to how many errors they made based on the #
         of calls.
     """
     students = {}
-    for problem in assignment.problems:
-        for error in problem.errors:
-            if error.student_name in students:
-                students[error.student_name] += 1
-            else:
-                students[error.student_name] = 1
-
-    sorted_students = sorted(students, key= lambda x: students[x])
+    for i in Error.objects.filter(assignment_id = assignment):
+        if i.student_name in students:
+            students[i.student_name] += 1
+        else:
+            students[i.student_name] = 1
+    sorted_students = sorted(students.items(), key=lambda item: item[1])
     return sorted_students
+
+    # students = {}
+    # for problem in assignment.problems:
+    #     for error in problem.errors:
+    #         if error.student_name in students:
+    #             students[error.student_name] += 1
+    #         else:
+    #             students[error.student_name] = 1
+
+    # sorted_students = sorted(students, key= lambda x: students[x])
+    # return sorted_students
