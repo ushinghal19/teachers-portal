@@ -3,6 +3,11 @@ from djongo.models.fields import ArrayField
 
 # Create your models here.
 
+class Teacher(models.Model)
+class Assignment(models.Model)
+class Problem(models.Model)
+class Error(models.Model)
+
 class Teacher(models.Model):
     teacher_id = models.CharField(max_length=100, primary_key = True)
     assignments = models.ArrayField(
@@ -16,7 +21,7 @@ class Assignment(models.Model):
     )
 
 class Problem(models.Model):
-    problem_id = models.PositiveSmallIntegerField(primary_key = True)
+    problem_id = models.CharField(max_length=1003, primary_key = True)
     errors = models.ArrayField(
         model_container = Error
     )
@@ -27,4 +32,4 @@ class Error(models.Model):
     student_name = models.CharField(max_length=100)
     problem_number = models.ForeignKey(Problem, on_delete=models.CASCADE)
     assignment_id = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    teacher_id = models.ForeginKey(Teacher, on_delete=models.CASCADE)
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
