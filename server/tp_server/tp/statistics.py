@@ -1,16 +1,17 @@
-from models import Assignment
+from models import Error
 
 # Req: teacher_id = 100, assignment_id = 50 Give me Stats
-assignment = Assignment()
+# assignment = Assignment()
 
 # Aggregate Errors:
-def aggregateErrors(assignment: Assignment) -> int:
-    """ Takes an assignment object and returns the total
+def aggregateErrors(assignment: int) -> int:
+    """ Takes an assignment id (int) and returns the total
         number of errors made by all students for that
         assignment
 
     """
-    return sum(len(problem.errors) for problem in assignment.problems)
+    return len(Error.objects.filter(assignment_id = assignment))
+    # return sum(len(problem.errors) for problem in assignment.problems)
 
 
 # Per Problem Error:
