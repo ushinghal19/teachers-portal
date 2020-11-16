@@ -4,7 +4,7 @@ from djongo.models.fields import ArrayField
 # Create your models here.
 
 class Error(models.Model):
-    id = models.CharField(max_length=1000, primary_key=True)
+    error_id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
     problem_number = models.ForeignKey(Problem, on_delete=models.CASCADE)

@@ -1,11 +1,11 @@
-from models import Error
+from .models import Error
 
 # Req: teacher_id = 100, assignment_id = 50 Give me Stats
 # assignment = Assignment()
 
 # Aggregate Errors:
-def aggregateErrors(assignment: int) -> int:
-    """ Takes an assignment id (int) and returns the total
+def aggregate_errors(assignment: Assignment) -> int:
+    """ Takes an assignment object and returns the total
         number of errors made by all students for that
         assignment
 
@@ -15,9 +15,9 @@ def aggregateErrors(assignment: int) -> int:
 
 
 # Per Problem Error:
-def problemErrors(assignment: int) -> dict:
-    """ Takes an assignment id (int) and returns a
-        dictionary of each of the problems in the 
+def problem_errors(assignment: Assignment) -> dict:
+    """ Takes an assignment object and returns a
+        dictionary of each of the problems in the
         assignment and the number of errors all
         students made on that problem.
     """
@@ -41,11 +41,11 @@ def problemErrors(assignment: int) -> dict:
     # return problems
 
 # Type of Error:
-def typeOfErrors(assignment: int) -> dict:
-    """ Takes an assignment id (int) and returns a 
-        dictionary of each of the types of errors 
+def type_of_errors(assignment: Assignment) -> dict:
+    """ Takes an assignment object and returns a
+        dictionary of each of the types of errors
         made in the assignment, and how often they
-        were made by all students. 
+        were made by all students.
     """
     errors = {}
     for i in Error.objects.filter(assignment_id = assignment):
@@ -64,8 +64,8 @@ def typeOfErrors(assignment: int) -> dict:
     # return errors
 
 # Best Students and Worst Students:
-def studentsByErrors(assignment: int) -> list:
-    """ Takes an assigment id (int) and creates a
+def students_by_errors(assignment: Assignment) -> list:
+    """ Takes an assigment object and creates a
         sorted list of students ranked by how few
         to how many errors they made based on the #
         of calls.
