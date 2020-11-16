@@ -41,21 +41,27 @@ def problemErrors(assignment: int) -> dict:
     # return problems
 
 # Type of Error:
-def typeOfErrors(assignment: Assignment) -> dict:
-    """ Takes an assignment object and returns a 
+def typeOfErrors(assignment: int) -> dict:
+    """ Takes an assignment id (int) and returns a 
         dictionary of each of the types of errors 
         made in the assignment, and how often they
         were made by all students. 
     """
-
     errors = {}
-    for problem in assignment.problems:
-        for error in problem.errors:
-            if error in errors:
-                errors[error] += 1
-            else:
-                errors[error] = 1
-    return errors
+    for i in Error.objects.filter(assignment_id = assignment):
+        if i.error_type in errors:
+            errors[i.error_type] += 1
+        else:
+            errors[i.error_type] = 1
+
+    # errors = {}
+    # for problem in assignment.problems:
+    #     for error in problem.errors:
+    #         if error in errors:
+    #             errors[error] += 1
+    #         else:
+    #             errors[error] = 1
+    # return errors
 
 # Best Students and Worst Students:
 def studentsByErrors(assignment: Assignment) -> list:
