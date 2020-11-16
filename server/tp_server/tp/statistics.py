@@ -1,4 +1,4 @@
-from models import Error
+from .models import Error
 
 # Req: teacher_id = 100, assignment_id = 50 Give me Stats
 # assignment = Assignment()
@@ -17,7 +17,7 @@ def aggregate_errors(assignment: Assignment) -> int:
 # Per Problem Error:
 def problem_errors(assignment: Assignment) -> dict:
     """ Takes an assignment object and returns a
-        dictionary of each of the problems in the 
+        dictionary of each of the problems in the
         assignment and the number of errors all
         students made on that problem.
     """
@@ -42,10 +42,10 @@ def problem_errors(assignment: Assignment) -> dict:
 
 # Type of Error:
 def type_of_errors(assignment: Assignment) -> dict:
-    """ Takes an assignment object and returns a 
-        dictionary of each of the types of errors 
+    """ Takes an assignment object and returns a
+        dictionary of each of the types of errors
         made in the assignment, and how often they
-        were made by all students. 
+        were made by all students.
     """
     errors = {}
     for i in Error.objects.filter(assignment_id = assignment):

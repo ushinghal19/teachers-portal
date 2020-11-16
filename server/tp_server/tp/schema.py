@@ -2,7 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django_extras import DjangoFilterListField, DjangoObjectField
 from .models import Error, Problem, Assignment, Teacher
-from statistics import aggregate_errors, problem_errors, type_of_errors, students_by_errors
+from .statistics import aggregate_errors, problem_errors, students_by_errors, type_of_errors
 
 s = "goodbye"
 
@@ -11,24 +11,25 @@ class StatisticType(DjangoObjectType):
     """
     Object type for statistics that we are gathering
     """
-    
-    aggregate_errors = Integer()
-    problem_errors = Integer()
-    type_of_errors = Dict()
-    students_by_errors = Dict()
+
+    aggregate_errors = graphene.Int()
+    problem_errors = graphene.Int()
+    type_of_errors = graphene.JSONString()
+    students_by_errors = graphene.JSONString()
 
     def resolve_aggregate_errors(parent, info):
-        return statistics.aggregate_errors(parent)
-    
+        return aggregate_errors(parent)
+
     def resolve_problem_errors(parent, info):
-        return statistics.problem_errors(parent)
-    
+        return problem_errors(parent)
+
     def resolve_type_of_errors(parent, info):
-        return statistics.type_of_errors(parent)
-    
+        return type_of_errors(parent)
+
     def resolve_students_by_errors(parent, info):
-        return statistics.students_by_errors(parent)
-    
+        return students_by_errors(parent)
+
+
 class ProblemType(DjangoObjectType):
     """
     Object type for each problem in an assignment.
@@ -36,9 +37,9 @@ class ProblemType(DjangoObjectType):
 
     class Meta:
         model = Problem
-        fields = ('problem_id')
+        fields = ('problem_id', )
         filter_fields = ['problem_id']
-    
+
     statistic = graphene.Field(StatisticType)
 
 class AssignmentType(DjangoObjectType):
@@ -47,7 +48,7 @@ class AssignmentType(DjangoObjectType):
     """
     class Meta:
         model = Assignment
-        fields = ('assignment_id')
+        fields = ('assignment_id', )
         filter_fields = ['assigmnent_id']
 
     statistic = graphene.Field(StatisticType)
@@ -121,7 +122,6 @@ class HypatiaErrorUpdate(HypatiaErrorMutationWithID):
             error.student_name = kwargs.get("student_name")
         error.save()
         return cls(error=error)
-
 
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
