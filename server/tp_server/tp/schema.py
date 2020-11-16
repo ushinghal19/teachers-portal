@@ -2,7 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django_extras import DjangoFilterListField, DjangoObjectField
 from .models import Error, Problem, Assignment, Teacher
-from statistic import *
+from statistics import aggregate_errors, problem_errors, type_of_errors, students_by_errors
 
 s = "goodbye"
 
@@ -12,19 +12,22 @@ class StatisticType(DjangoObjectType):
     Object type for statistics that we are gathering
     """
     
-    aggregateErrors = Integer()
-    problemErrors = Integer()
-    typeOfErrors = Dict()
-    studentsByErrors = Dict()
+    aggregate_errors = Integer()
+    problem_errors = Integer()
+    type_of_errors = Dict()
+    students_by_errors = Dict()
 
     def resolve_aggregate_errors(parent, info):
-        return statistic.aggregateErrors(parent)
+        return statistics.aggregate_errors(parent)
     
     def resolve_problem_errors(parent, info):
-        return statistic.problemErrors(parent)
+        return statistics.problem_errors(parent)
     
     def resolve_type_of_errors(parent, info):
-        return statistic.typeOfErrors(parent)
+        return statistics.type_of_errors(parent)
+    
+    def resolve_students_by_errors(parent, info):
+        return statistics.students_by_errors(parent)
     
 class ProblemType(DjangoObjectType):
     """
