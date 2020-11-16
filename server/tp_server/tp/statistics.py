@@ -15,22 +15,30 @@ def aggregateErrors(assignment: int) -> int:
 
 
 # Per Problem Error:
-def problemErrors(assignment: Assignment) -> dict:
-    """ Takes an assignment object and returns a
+def problemErrors(assignment: int) -> dict:
+    """ Takes an assignment id (int) and returns a
         dictionary of each of the problems in the 
         assignment and the number of errors all
         students made on that problem.
     """
     problems = {}
-    countError = 0
-    problemNumber = 1
-
-    for problem in assignment.problems:
-        for error in problem.errors:
-            countError += 1
-        problems[problemNumber] = countError
-        problemNumber += 1
+    for i in Error.objects.filter(assignment_id = assignment):
+        if i.problem_number in problems:
+            problems[i.problem_number] += 1
+        else:
+            problems[i.problem_number] = 1
     return problems
+
+    # problems = {}
+    # countError = 0
+    # problemNumber = 1
+
+    # for problem in assignment.problems:
+    #     for error in problem.errors:
+    #         countError += 1
+    #     problems[problemNumber] = countError
+    #     problemNumber += 1
+    # return problems
 
 # Type of Error:
 def typeOfErrors(assignment: Assignment) -> dict:
