@@ -2,11 +2,52 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django_extras import DjangoFilterListField, DjangoObjectField
 from .models import Error, Problem, Assignment, Teacher
+from statistic import *
 
 s = "goodbye"
 
 # ======================== DEFINING THE OBJECT TYPES & MUTATIONS====================================
+class StatisticType(DjangoObjectType):
+    """
+    Object type for statistics that we are gathering
+    """
+    
+    aggregateErrors = Integer()
+    problemErrors = Integer()
+    typeOfErrors = Dict()
+    studentsByErrors = Dict()
 
+    def resolve_aggregate_errors(parent, info):
+        return statistic.aggregateErrors(parent)
+    
+    def resolve_problem_errors(parent, info):
+        return statistic.problemErrors(parent)
+    
+    def resolve_type_of_errors(parent, info):
+        return statistic.typeOfErrors(parent)
+    
+class ProblemType(DjangoObjectType):
+    """
+    Object type for each problem in an assignment.
+    """
+
+    class Meta:
+        model = Problem
+        fields = ('problem_id')
+        filter_fields = ['problem_id']
+    
+    statistic = graphene.Field(StatisticType)
+
+class AssignmentType(DjangoObjectType):
+    """
+    Object type for each Assignment
+    """
+    class Meta:
+        model = Assignment
+        fields = ('assignment_id')
+        filter_fields = ['assigmnent_id']
+
+    statistic = graphene.Field(StatisticType)
 
 class HypatiaErrorType(DjangoObjectType):
     """
@@ -14,8 +55,8 @@ class HypatiaErrorType(DjangoObjectType):
     """
     class Meta:
         model = Error
-        fields = ('id', 'error_type', 'student_name')
-        filter_fields = ['id', 'error_type', 'student_name']
+        fields = ('error_id', 'error_type', 'student_name')
+        filter_fields = ['error_id', 'error_type', 'student_name']
 
 
 class HypatiaErrorMutationCreate(graphene.Mutation):
@@ -94,6 +135,14 @@ class Query(graphene.ObjectType):
     # This root query returns a list of objects, and can be filtered.
     hypatia_errors = DjangoFilterListField(HypatiaErrorType)
 
+    assignment = DjangoObjectField(AssignmentType)
+
+    assignments = DjangoFilterListField(AssignmentType)
+
+    problem = DjangoObjectField(ProblemType)
+
+    problems = DjangoFilterListField(ProblemType)
+
     # If you needed to do a custom resolver, you would do it this way.
     # But, the django_graphene_extras package is doing this for us above.
     # @staticmethod
@@ -103,7 +152,7 @@ class Query(graphene.ObjectType):
 
 class Mutation(graphene.ObjectType):
     """
-    Defines all Mutations for this Queryt
+    Defines all Mutations for this Query
     """
     create_new_error = HypatiaErrorMutationCreate.Field()
     create_new_error_with_id = HypatiaErrorMutationWithID.Field()
