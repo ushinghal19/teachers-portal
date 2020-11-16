@@ -4,7 +4,7 @@ from models import Assignment
 assignment = Assignment()
 
 # Aggregate Errors:
-def aggregateErrors(assignment: Assignment) -> int:
+def aggregate_errors(assignment: Assignment) -> int:
     """ Takes an assignment object and returns the total
         number of errors made by all students for that
         assignment
@@ -14,7 +14,7 @@ def aggregateErrors(assignment: Assignment) -> int:
 
 
 # Per Problem Error:
-def problemErrors(assignment: Assignment) -> dict:
+def problem_errors(assignment: Assignment) -> dict:
     """ Takes an assignment object and returns a
         dictionary of each of the problems in the 
         assignment and the number of errors all
@@ -32,7 +32,7 @@ def problemErrors(assignment: Assignment) -> dict:
     return problems
 
 # Type of Error:
-def typeOfErrors(assignment: Assignment) -> dict:
+def type_of_errors(assignment: Assignment) -> dict:
     """ Takes an assignment object and returns a 
         dictionary of each of the types of errors 
         made in the assignment, and how often they
@@ -49,7 +49,7 @@ def typeOfErrors(assignment: Assignment) -> dict:
     return errors
 
 # Best Students and Worst Students:
-def studentsByErrors(assignment: Assignment) -> list:
+def students_by_errors(assignment: Assignment) -> list:
     """ Takes an assigment object and creates a
         sorted list of students ranked by how few
         to how many errors they made based on the #
