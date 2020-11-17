@@ -118,6 +118,25 @@ class ProblemType(DjangoObjectType):
         return parent.errors
 
 
+class ProblemMutationCreate(graphene.Mutation):
+    """
+    Mutation for problems from Hypatia.
+    """
+    class Arguments:
+        problem_number = graphene.String()
+
+    error = graphene.Field(HypatiaErrorType)
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        """
+        Takes optional additional Error fields and creates a new error.
+        """
+        error = Error(kwargs)
+        error.save()
+        return cls(error=error)
+
+
 class AssignmentType(DjangoObjectType):
     """
     Object type for each Assignment
