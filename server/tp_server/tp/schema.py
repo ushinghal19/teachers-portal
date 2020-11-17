@@ -201,19 +201,23 @@ class Query(graphene.ObjectType):
     hello = graphene.String(default_value="Hi!")
     new_field = graphene.String(default_value=s)
 
-    # This root query returns a single object, and requires an ID param.
+    # These root queries return a single object, and require an ID param.
     hypatia_error = DjangoObjectField(HypatiaErrorType)
-
-    # This root query returns a list of objects, and can be filtered.
-    hypatia_errors = DjangoFilterListField(HypatiaErrorType)
-
-    assignment = DjangoObjectField(AssignmentType)
-
-    assignments = DjangoFilterListField(AssignmentType)
 
     problem = DjangoObjectField(ProblemType)
 
+    assignment = DjangoObjectField(AssignmentType)
+
+    teacher = DjangoObjectField(TeacherType)
+
+    # These root queries return a list of objects, and can be filtered.
+    hypatia_errors = DjangoFilterListField(HypatiaErrorType)
+
     problems = DjangoFilterListField(ProblemType)
+
+    assignments = DjangoFilterListField(AssignmentType)
+
+    teachers = DjangoFilterListField(TeacherType)
 
     # If you needed to do a custom resolver, you would do it this way.
     # But, the django_graphene_extras package is doing this for us above.
