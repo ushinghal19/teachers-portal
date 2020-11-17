@@ -16,9 +16,9 @@ class Error(models.Model):
     error_id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
-    problem_number = models.CharField(max_length=1003, primary_key = True)
-    assignment_id = models.CharField(max_length=1000, primary_key = True)
-    teacher_id = models.CharField(max_length=100, primary_key = True)
+    problem_number = models.CharField(max_length=1003)
+    assignment_id = models.CharField(max_length=1000)
+    teacher_id = models.CharField(max_length=100)
 
 class Problem(models.Model):
     """
