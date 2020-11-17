@@ -7,51 +7,6 @@ from .statistics import aggregate_errors, problem_errors, students_by_errors, ty
 s = "goodbye"
 
 # ======================== DEFINING THE OBJECT TYPES & MUTATIONS====================================
-class StatisticType(DjangoObjectType):
-    """
-    Object type for statistics that we are gathering
-    """
-
-    aggregate_errors = graphene.Int()
-    problem_errors = graphene.Int()
-    type_of_errors = graphene.JSONString()
-    students_by_errors = graphene.JSONString()
-
-    def resolve_aggregate_errors(parent, info):
-        return aggregate_errors(parent)
-
-    def resolve_problem_errors(parent, info):
-        return problem_errors(parent)
-
-    def resolve_type_of_errors(parent, info):
-        return type_of_errors(parent)
-
-    def resolve_students_by_errors(parent, info):
-        return students_by_errors(parent)
-
-
-class ProblemType(DjangoObjectType):
-    """
-    Object type for each problem in an assignment.
-    """
-
-    class Meta:
-        model = Problem
-        fields = ('problem_id', )
-        filter_fields = ['problem_id']
-
-    statistic = graphene.Field(StatisticType)
-
-class AssignmentType(DjangoObjectType):
-    """
-    Object type for each Assignment
-    """
-    class Meta:
-        model = Assignment
-        fields = ('assignment_id', )
-        filter_fields = ['assigmnent_id']
-
-    statistic = graphene.Field(StatisticType)
 
 class HypatiaErrorType(DjangoObjectType):
     """
@@ -122,6 +77,64 @@ class HypatiaErrorUpdate(HypatiaErrorMutationWithID):
             error.student_name = kwargs.get("student_name")
         error.save()
         return cls(error=error)
+
+
+class StatisticType(graphene.ObjectType):
+    """
+    Object type for statistics that we are gathering
+    """
+
+    aggregate_errors = graphene.Int()
+    problem_errors = graphene.Int()
+    type_of_errors = graphene.JSONString()
+    students_by_errors = graphene.JSONString()
+
+    def resolve_aggregate_errors(parent, info):
+        return aggregate_errors(parent)
+
+    def resolve_problem_errors(parent, info):
+        return problem_errors(parent)
+
+    def resolve_type_of_errors(parent, info):
+        return type_of_errors(parent)
+
+    def resolve_students_by_errors(parent, info):
+        return students_by_errors(parent)
+
+
+class ProblemType(DjangoObjectType):
+    """
+    Object type for each problem in an assignment.
+    """
+
+    class Meta:
+        model = Problem
+        fields = ('problem_number',)
+        filter_fields = ['problem_number']
+
+    errors = graphene.List(HypatiaErrorType)
+
+    def resolve_errors(parent, info):
+        return parent.errors
+
+
+class AssignmentType(DjangoObjectType):
+    """
+    Object type for each Assignment
+    """
+    class Meta:
+        model = Assignment
+        fields = ('assignment_id',)
+        filter_fields = ['assignment_id']
+
+    problems = graphene.List(ProblemType)
+    statistic = graphene.Field(StatisticType)
+
+    def resolve_problems(parent, info):
+        return parent.problems
+
+    def resolve_statistic(parent, info):
+        return StatisticType(parent=parent)
 
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
