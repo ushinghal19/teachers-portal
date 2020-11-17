@@ -8,6 +8,7 @@ s = "goodbye"
 
 # ======================== DEFINING THE OBJECT TYPES & MUTATIONS====================================
 
+
 class HypatiaErrorType(DjangoObjectType):
     """
     Object Type for Errors from Hypatia.
@@ -124,17 +125,18 @@ class ProblemMutationCreate(graphene.Mutation):
     """
     class Arguments:
         problem_number = graphene.String()
+        assignment_id = graphene.String()
 
-    error = graphene.Field(HypatiaErrorType)
+    problem = graphene.Field(ProblemType)
 
     @classmethod
-    def mutate(cls, root, info, **kwargs):
+    def mutate(cls, root, info, problem_number: str, assignment_id: str):
         """
-        Takes optional additional Error fields and creates a new error.
+        Takes optional additional Error fields and creates a new problem.
         """
-        error = Error(kwargs)
-        error.save()
-        return cls(error=error)
+        problem = #problem.create_problem(problem_number=problem_number, assignment_id=assignment_id)
+        problem.save()
+        return cls(problem=problem)
 
 
 class AssignmentType(DjangoObjectType):
@@ -154,6 +156,41 @@ class AssignmentType(DjangoObjectType):
 
     def resolve_statistic(parent, info):
         return StatisticType(parent=parent)
+
+
+class AssignmentMutationCreate(graphene.Mutation):
+    """
+    Mutation for problems from Hypatia.
+    """
+    class Arguments:
+        assignment_id = graphene.String()
+        teacher_id = graphene.String()
+
+    assignment = graphene.Field(AssignmentType)
+
+    @classmethod
+    def mutate(cls, root, info, assignment_id:str, teacher_id:str):
+        """
+        Takes optional additional Error fields and creates a new problem.
+        """
+        assignment = #assignment.create_assignment(assignment_id=assignment_id, teacher_id=teacher_id)
+        assignment.save()
+        return cls(assignment=assignment)
+
+
+class TeacherType(DjangoObjectType):
+    """
+    Object type for each Assignment
+    """
+    class Meta:
+        model = Teacher
+        fields = ('teacher_id', 'teacher_name')
+        filter_fields = ['teacher_id', 'teacher_name']
+
+    assignments = graphene.List(AssignmentType)
+
+    def resolve_problems(parent, info):
+        return parent.assignments
 
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
