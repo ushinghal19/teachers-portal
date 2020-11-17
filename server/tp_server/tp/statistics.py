@@ -3,6 +3,7 @@ from .models import Error, Problem, Assignment, Teacher
 # Req: teacher_id = 100, assignment_id = 50 Give me Stats
 # assignment = Assignment()
 
+
 # Aggregate Errors:
 def aggregate_errors(assignment: Assignment) -> int:
     """ Takes an assignment object and returns the total
@@ -23,13 +24,10 @@ def problem_errors(assignment: Assignment) -> dict:
     """
 
     problems = {}
-    countError = 0
     problemNumber = 1
 
     for problem in assignment.problems:
-        for error in problem.errors:
-            countError += 1
-        problems[problemNumber] = countError
+        problems[problemNumber] = len(problem.errors)
         problemNumber += 1
     return problems
 
@@ -65,6 +63,7 @@ def type_of_errors(assignment: Assignment) -> dict:
     #         errors[i.error_type] += 1
     #     else:
     #         errors[i.error_type] = 1
+
 
 # Best Students and Worst Students:
 def students_by_errors(assignment: Assignment) -> list:
