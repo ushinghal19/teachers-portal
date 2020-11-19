@@ -32,7 +32,7 @@ class Error(models.Model):
         This will instantiate a Problem, Assignment, and Teacher if they do not exist.
         If Error exists already, raise error.
         """
-        if Error.objects.filter(error_id = error_id).count() == 0:
+        if not Error.objects.filter(error_id = error_id):
             error = Error()
             error.error_id = error_id
             error.error_type = error_type
@@ -66,7 +66,7 @@ class Problem(models.Model):
         If Problem exists already, raise error.
         """
         problem_str = assignment_id + "_" + str(problem_number)
-        if Problem.objects.filter(problem_number = problem_str).count() == 0:
+        if not Problem.objects.filter(problem_number = problem_str):
             errors_array = []
             problem = Problem()
             problem.problem_number = problem_str
@@ -97,7 +97,7 @@ class Assignment(models.Model):
         Initializes with empty problems array.
         If Assignment exists already, raise error.
         """
-        if Assignment.objects.filter(assignment_id = assignment_id).count() == 0:
+        if not Assignment.objects.filter(assignment_id = assignment_id):
             problems_array = []
             assignment = Assignment()
             assignment.assignment_id = assignment_id
@@ -128,10 +128,10 @@ class Teacher(models.Model):
         initialized with an empty assignments array.
         If Teacher with teacher_name exists already, raise error.
         """
-        if Teacher.objects.filter(teacher_name = teacher_name).count() == 0:
+        if not Teacher.objects.filter(teacher_name = teacher_name):
             assignments_array = []
             teacher = Teacher()
             teacher.assignments = assignments_array
             teacher.teacher_name = teacher_name
             teacher.save()
-        rasie KeyError("A teacher with this name already exists")
+        raise KeyError("A teacher with this name already exists")
