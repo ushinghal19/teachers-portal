@@ -18,8 +18,10 @@ class Error(models.Model):
     error_id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
-    problem_number = models.CharField(max_length=1003)
-    assignment_id = models.CharField(max_length=1000)
+    # problem_number = models.CharField(max_length=1003)
+    # assignment_id = models.CharField(max_length=1000)
+
+    objects = models.DjongoManager()
 
     @staticmethod
     def create(error_id: str, error_type: str, student_name: str, problem_number: int,
@@ -35,16 +37,23 @@ class Error(models.Model):
         This will instantiate a Problem, Assignment, and Teacher if they do not exist.
         If Error exists already, raise error.
         """
+        # TODO: Can we make some of these fields not mandatory? And then the same in the Schema.
         if not Error.objects.filter(error_id=error_id):
             error = Error()
             error.error_id = error_id
             error.error_type = error_type
             error.student_name = student_name
-            error.problem_number = assignment_id + "_" + str(problem_number)
-            error.assignment_id = assignment_id
+
+            try:
+                problem = Problem.objects.\
+                    get(problem_number=Problem.format_problem_id(problem_number, assignment_id))
+            except Problem.DoesNotExist:
+                problem = Problem.create(problem_number=problem_number,
+                                         assignment_id=assignment_id)
+                # raise KeyError(f"The problem with the ID \
+                #           {problem_number} specified does not exist.")
+            problem.errors.add(error)
             error.save()
-            problem = Problem.objects.get(problem_number=error.problem_number)
-            problem.errors.append(error)
             problem.save()
             return error
         raise KeyError("An error with this ID has already been created")
@@ -56,9 +65,17 @@ class Problem(models.Model):
     with array of errors.
     """
     problem_number = models.CharField(max_length=1003, primary_key=True)
-    errors = models.ArrayField(
-        model_container=Error
+    errors = models.ArrayReferenceField(
+        to=Error,
+        on_delete=models.CASCADE,
+
     )
+
+    objects = models.DjongoManager()
+
+    @staticmethod
+    def format_problem_id(problem_number: int, assignment_id: str) -> str:
+        return assignment_id + "_" + str(problem_number)
 
     @staticmethod
     def create(problem_number: int, assignment_id: str):
@@ -69,17 +86,18 @@ class Problem(models.Model):
         Initializes with empty errors array.
         If Problem exists already, raise error.
         """
-        problem_str = assignment_id + "_" + str(problem_number)
-        if not Problem.objects.filter(problem_number=problem_str):
-            problem = Problem(problem_number=problem_str, errors=[])
+        problem_str = Problem.format_problem_id(problem_number, assignment_id)
+        if not Problem.objects.filter(problem_number=problem_str).exists():
+            problem = Problem(problem_number=problem_str)
             try:
                 assignment = Assignment.objects.get(assignment_id=assignment_id)
             except Assignment.DoesNotExist:
                 raise KeyError(f"The assignment with the ID \
                 {assignment_id} specified does not exist.")
-            assignment.problems.append(vars(problem))
+            assignment.problems.add(problem)
+
             problem.save()
-            assignment.save()
+
             return problem
         raise KeyError("A problem with this ID already exists")
 
@@ -90,8 +108,9 @@ class Assignment(models.Model):
     with array of problems.
     """
     assignment_id = models.CharField(max_length=1000, primary_key=True)
-    problems = models.ArrayField(
-        model_container=Problem
+    problems = models.ArrayReferenceField(
+        to=Problem,
+        on_delete=models.CASCADE
     )
     #
     # class Meta:
@@ -107,20 +126,20 @@ class Assignment(models.Model):
         If Assignment exists already, raise error.
         """
         if not Assignment.objects.filter(assignment_id=assignment_id):
-            assignment = Assignment(assignment_id=assignment_id, problems=[])
-            try:
-                teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
-            except Teacher.DoesNotExist:
-                raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
-            teacher.assignments.append(vars(assignment))
+            assignment = Assignment(assignment_id=assignment_id)
+            # try:
+            #     teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
+            # except Teacher.DoesNotExist:
+            #     raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
+            # teacher.assignments.append(vars(assignment))
             assignment.save()
-            teacher.save()
+            # teacher.save()
             return assignment
         raise KeyError("An assignment with this ID already exists")
 
-    def add_problem(self, problem: Problem):
-        self.problems.append(vars(problem))
-        Teacher.objects.filter()
+    # def add_problem(self, problem: Problem):
+    #     self.problems.append(vars(problem))
+    #     Teacher.objects.filter()
 
 # class AssignmentActual(Assignment):
 #     pass
@@ -138,9 +157,9 @@ class Teacher(models.Model):
     """
     _id = models.ObjectIdField()
     teacher_name = models.CharField(max_length=100)
-    assignments = models.ArrayField(
-        model_container=Assignment
-        # model_form_class=AssignmentForm
+    assignments = models.ArrayReferenceField(
+        to=Assignment,
+        on_delete=models.CASCADE
     )
     objects = models.DjongoManager()
 
