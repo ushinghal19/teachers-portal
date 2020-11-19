@@ -1,6 +1,11 @@
+from bson import BSONOBJ, ObjectId
 from django.db import models
+from django import forms
 from djongo import models
+
+
 # Create your models here.
+from djongo.models import DjongoManager
 
 
 class Error(models.Model):
@@ -17,8 +22,8 @@ class Error(models.Model):
     assignment_id = models.CharField(max_length=1000)
 
     @staticmethod
-    def create(error_id: str, error_type: str, student_name: str, \
-               problem_number: int, assignment_id: str):
+    def create(error_id: str, error_type: str, student_name: str, problem_number: int,
+               assignment_id: str):
         """
         USE THIS TO CREATE ERROR
         Method to create Error with attributes:
@@ -30,7 +35,7 @@ class Error(models.Model):
         This will instantiate a Problem, Assignment, and Teacher if they do not exist.
         If Error exists already, raise error.
         """
-        if not Error.objects.filter(error_id = error_id):
+        if not Error.objects.filter(error_id=error_id):
             error = Error()
             error.error_id = error_id
             error.error_type = error_type
@@ -38,20 +43,21 @@ class Error(models.Model):
             error.problem_number = assignment_id + "_" + str(problem_number)
             error.assignment_id = assignment_id
             error.save()
-            problem = Problem.objects.get(problem_number = error.problem_number)
+            problem = Problem.objects.get(problem_number=error.problem_number)
             problem.errors.append(error)
             problem.save()
             return error
         raise KeyError("An error with this ID has already been created")
 
+
 class Problem(models.Model):
     """
-    Model for Problem, identified by problem_number, 
+    Model for Problem, identified by problem_number,
     with array of errors.
     """
-    problem_number = models.CharField(max_length=1003, primary_key = True)
+    problem_number = models.CharField(max_length=1003, primary_key=True)
     errors = models.ArrayField(
-        model_container = Error
+        model_container=Error
     )
 
     @staticmethod
@@ -64,77 +70,88 @@ class Problem(models.Model):
         If Problem exists already, raise error.
         """
         problem_str = assignment_id + "_" + str(problem_number)
-        if not Problem.objects.filter(problem_number = problem_str):
-            errors_array = []
-            problem = Problem()
-            problem.problem_number = problem_str
-            problem.errors = errors_array
+        if not Problem.objects.filter(problem_number=problem_str):
+            problem = Problem(problem_number=problem_str, errors=[])
+            try:
+                assignment = Assignment.objects.get(assignment_id=assignment_id)
+            except Assignment.DoesNotExist:
+                raise KeyError(f"The assignment with the ID \
+                {assignment_id} specified does not exist.")
+            assignment.problems.append(vars(problem))
             problem.save()
-            assignment = Assignment.objects.get(assignment_id = assignment_id)
-            assignment.problems.append(problem)
             assignment.save()
             return problem
         raise KeyError("A problem with this ID already exists")
+
 
 class Assignment(models.Model):
     """
     Model for Assignment, identified by assignment_id (as string),
     with array of problems.
     """
-    assignment_id = models.CharField(max_length=1000, primary_key = True)
+    assignment_id = models.CharField(max_length=1000, primary_key=True)
     problems = models.ArrayField(
-        model_container = Problem
+        model_container=Problem
     )
+    #
+    # class Meta:
+    #     abstract = True
 
     @staticmethod
-    def create(assignment_id: str, teacher_name: str):
+    def create(assignment_id: str, teacher_id: str):
         """
         USE THIS TO CREATE ASSIGNMENT
         Method to create assignment, identified with assignment_id argument.
-        Prerequisite: teacher_name must be an existing teacher name in Teachers.
+        Prerequisite: teacher_id must be an existing teacher name in Teachers.
         Initializes with empty problems array.
         If Assignment exists already, raise error.
         """
-        if not Assignment.objects.filter(assignment_id = assignment_id):
-            problems_array = []
-            assignment = Assignment()
-            assignment.assignment_id = assignment_id
-            assignment.problems = problems_array
-            assignment.save()
+        if not Assignment.objects.filter(assignment_id=assignment_id):
+            assignment = Assignment(assignment_id=assignment_id, problems=[])
             try:
-                teacher = Teacher.objects.filter(teacher_name = teacher_name)[0]
+                teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
             except Teacher.DoesNotExist:
-                raise KeyError("The teacher name specified does not exist.")
-            teacher.assignments.append(assignment)
+                raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
+            teacher.assignments.append(vars(assignment))
+            assignment.save()
             teacher.save()
             return assignment
         raise KeyError("An assignment with this ID already exists")
 
+    def add_problem(self, problem: Problem):
+        self.problems.append(vars(problem))
+        Teacher.objects.filter()
+
+# class AssignmentActual(Assignment):
+#     pass
+#
+# class AssignmentForm(forms.ModelForm):
+#     class Meta:
+#         model = Assignment
+#         fields = '__all__'
+
 
 class Teacher(models.Model):
     """
-    Model for Teacher, identified by teacher_id (as string), 
-    with array of assignments.
+    Model for Teacher, identified by _id (as string),
+    with array of assignments.w
     """
-    teacher_id = models.AutoField(primary_key=True)
+    _id = models.ObjectIdField()
     teacher_name = models.CharField(max_length=100)
     assignments = models.ArrayField(
-        model_container = Assignment
+        model_container=Assignment
+        # model_form_class=AssignmentForm
     )
+    objects = models.DjongoManager()
 
     @staticmethod
     def create(teacher_name: str):
         """
         USE THIS TO CREATE TEACHER OBJECT
-        Method to create Teacher, identified with teacher_name argument,
+        Method to create Teacher, identified with teacher_id argument,
         initialized with an empty assignments array.
-        If Teacher with teacher_name exists already, raise error.
+        If Teacher with teacher_id exists already, raise error.
         """
-        if not Teacher.objects.filter(teacher_name = teacher_name):
-            assignments_array = []
-            teacher = Teacher()
-            teacher.assignments = assignments_array
-            teacher.teacher_name = teacher_name
-            teacher.save()
-            return teacher
-        raise KeyError("A teacher with this name already exists")
+        teacher = Teacher(teacher_name=teacher_name, assignments=[])
+        teacher.save()
+        return teacher

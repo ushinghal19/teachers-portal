@@ -6,6 +6,7 @@ from .statistics import aggregate_errors, problem_errors, students_by_errors, ty
 
 s = "goodbye"
 
+
 # ======================== DEFINING THE OBJECT TYPES & MUTATIONS====================================
 
 
@@ -13,6 +14,7 @@ class HypatiaErrorType(DjangoObjectType):
     """
     Object Type for Errors from Hypatia.
     """
+
     class Meta:
         model = Error
         fields = ('error_id', 'error_type', 'student_name')
@@ -23,6 +25,7 @@ class HypatiaErrorMutationCreate(graphene.Mutation):
     """
     Mutation for Errors from Hypatia.
     """
+
     class Arguments:
         error_id = graphene.String()
         error_type = graphene.String()
@@ -33,7 +36,8 @@ class HypatiaErrorMutationCreate(graphene.Mutation):
     error = graphene.Field(HypatiaErrorType)
 
     @classmethod
-    def mutate(cls, root, info, error_id: str, error_type: str, student_name: str, problem_number: int,
+    def mutate(cls, root, info, error_id: str, error_type: str, student_name: str,
+               problem_number: int,
                assignment_id: str):
         """
         Takes optional additional Error fields and creates a new error.
@@ -49,6 +53,7 @@ class HypatiaErrorMutationWithID(graphene.Mutation):
     """
     Mutation for Errors from Hypatia, when you specify an ID (from the Hypatia Companion App).
     """
+
     class Arguments:
         id = graphene.String()
         error_type = graphene.String()
@@ -129,8 +134,9 @@ class ProblemMutationCreate(graphene.Mutation):
     """
     Mutation for problems from Hypatia.
     """
+
     class Arguments:
-        problem_number = graphene.String()
+        problem_number = graphene.Int()
         assignment_id = graphene.String()
 
     problem = graphene.Field(ProblemType)
@@ -150,6 +156,7 @@ class AssignmentType(DjangoObjectType):
     """
     Object type for each Assignment
     """
+
     class Meta:
         model = Assignment
         fields = ('assignment_id',)
@@ -159,6 +166,10 @@ class AssignmentType(DjangoObjectType):
     statistic = graphene.Field(StatisticType)
 
     def resolve_problems(parent, info):
+        if parent.problems:
+            return [Problem(problem_number=dict(problem)['problem_number'],
+                            errors=dict(problem)['errors'])
+                    for problem in parent.problems]
         return parent.problems
 
     def resolve_statistic(parent, info):
@@ -169,6 +180,7 @@ class AssignmentMutationCreate(graphene.Mutation):
     """
     Mutation for problems from Hypatia.
     """
+
     class Arguments:
         assignment_id = graphene.String()
         teacher_id = graphene.String()
@@ -180,8 +192,7 @@ class AssignmentMutationCreate(graphene.Mutation):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        assignment = Assignment.create(assignment_id=assignment_id, teacher_name=teacher_id)
-        # assignment.save()
+        assignment = Assignment.create(assignment_id=assignment_id, teacher_id=teacher_id)
         return cls(assignment=assignment)
 
 
@@ -189,21 +200,31 @@ class TeacherType(DjangoObjectType):
     """
     Object type for each Assignment
     """
+
     class Meta:
         model = Teacher
-        fields = ('teacher_id', 'teacher_name')
-        filter_fields = ['teacher_id', 'teacher_name']
+        fields = ('teacher_name',)
+        filter_fields = ['teacher_name']
 
     assignments = graphene.List(AssignmentType)
+    _id = graphene.String()
 
-    def resolve_problems(parent, info):
+    def resolve_assignments(parent, info):
+        if parent.assignments:
+            return [Assignment(assignment_id=dict(assignment)['assignment_id'],
+                               problems=dict(assignment)['problems'])
+                    for assignment in parent.assignments]
         return parent.assignments
+
+    def resolve_id(parent, info):
+        return parent._id
 
 
 class TeacherMutationCreate(graphene.Mutation):
     """
     Mutation for problems from Hypatia.
     """
+
     class Arguments:
         teacher_name = graphene.String()
 
@@ -215,8 +236,8 @@ class TeacherMutationCreate(graphene.Mutation):
         Takes optional additional Error fields and creates a new problem.
         """
         teacher = Teacher.create(teacher_name=teacher_name)
-        # assignment.save()
         return cls(teacher=teacher)
+
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
 
@@ -262,9 +283,7 @@ class Mutation(graphene.ObjectType):
     create_new_assignment = AssignmentMutationCreate.Field()
     create_new_teacher = TeacherMutationCreate.Field()
 
+
 # ======================== REGISTER QUERY & MUTATION CLASSES =======================================
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
-
-
-

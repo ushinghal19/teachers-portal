@@ -1,6 +1,6 @@
 from .models import Error, Problem, Assignment, Teacher
 
-# Req: teacher_id = 100, assignment_id = 50 Give me Stats
+# Req: _id = 100, assignment_id = 50 Give me Stats
 # assignment = Assignment()
 
 
