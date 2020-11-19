@@ -130,11 +130,12 @@ class ProblemMutationCreate(graphene.Mutation):
     problem = graphene.Field(ProblemType)
 
     @classmethod
-    def mutate(cls, root, info, problem_number: str, assignment_id: str):
+    def mutate(cls, root, info, problem_number: int, assignment_id: str):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        problem = #problem.create_problem(problem_number=problem_number, assignment_id=assignment_id)
+
+        problem = Problem.create(problem_number=problem_number, assignment_id=assignment_id)
         problem.save()
         return cls(problem=problem)
 
@@ -169,11 +170,11 @@ class AssignmentMutationCreate(graphene.Mutation):
     assignment = graphene.Field(AssignmentType)
 
     @classmethod
-    def mutate(cls, root, info, assignment_id:str, teacher_id:str):
+    def mutate(cls, root, info, assignment_id: str, teacher_id: str):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        assignment = #assignment.create_assignment(assignment_id=assignment_id, teacher_id=teacher_id)
+        assignment = Assignment.create_assignment(assignment_id=assignment_id, teacher_id=teacher_id)
         assignment.save()
         return cls(assignment=assignment)
 
