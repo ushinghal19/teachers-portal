@@ -33,7 +33,7 @@ class Error(models.Model):
         assignment_id (str)
         teacher_id (str)
         This will instantiate a Problem, Assignment, and Teacher if they do not exist.
-        If Error exists already, do nothing.
+        If Error exists already, raise error.
         """
         if Error.objects.filter(error_id = error_id).count() == 0:
             error = Error()
@@ -44,15 +44,16 @@ class Error(models.Model):
             error.assignment_id = assignment_id
             error.teacher_id = teacher_id
             error.save()
-            Teacher.create(teacher_id)
-            Assignment.create(assignment_id, teacher_id)
-            Problem.create(problem_number, assignment_id)
+            if Teacher.objects.filter(teacher_name = teacher_name).count() == 0:
+                Teacher.create(teacher_id)
+            if Assignment.objects.filter(assignment_id = assignment_id).count() == 0:
+                Assignment.create(assignment_id, teacher_id)
+            if Problem.objects.filter(problem_number = error.problem_number).count() == 0:
+                Problem.create(problem_number, assignment_id)
             problem = Problem.objects.get(problem_number = error.problem_number)
             problem.errors.append(error)
             problem.save()
-
             return error
-
         raise KeyError("An error with this ID has already been created")
 
 class Problem(models.Model):
@@ -72,7 +73,7 @@ class Problem(models.Model):
         Method to create problem, identified with problem_number argument.
         Prerequisite: assignment_id must be an existing assignment_id in Assignment.
         Initializes with empty errors array.
-        If Problem exists already, do nothing.
+        If Problem exists already, raise error.
         """
         problem_str = assignment_id + "_" + str(problem_number)
         if Problem.objects.filter(problem_number = problem_str).count() == 0:
@@ -85,7 +86,6 @@ class Problem(models.Model):
             assignment.problems.append(problem)
             assignment.save()
             return problem
-
         raise KeyError("A problem with this ID already exists")
 
 class Assignment(models.Model):
@@ -105,7 +105,7 @@ class Assignment(models.Model):
         Method to create assignment, identified with assignment_id argument.
         Prerequisite: teacher_name must be an existing teacher name in Teachers.
         Initializes with empty problems array.
-        If Assignment exists already, do nothing.
+        If Assignment exists already, raise error.
         """
         if Assignment.objects.filter(assignment_id = assignment_id).count() == 0:
             problems_array = []
@@ -117,7 +117,6 @@ class Assignment(models.Model):
             teacher.assignments.append(assignment)
             teacher.save()
             return assignment
-
         raise KeyError("An assignment with this ID already exists")
 
 class Teacher(models.Model):
@@ -137,7 +136,7 @@ class Teacher(models.Model):
         USE THIS TO CREATE TEACHER OBJECT
         Method to create Teacher, identified with teacher_name argument,
         initialized with an empty assignments array.
-        If Teacher with teacher_name exists already, do nothing.
+        If Teacher with teacher_name exists already, raise error.
         """
         if Teacher.objects.filter(teacher_name = teacher_name).count() == 0:
             assignments_array = []
@@ -145,3 +144,4 @@ class Teacher(models.Model):
             teacher.assignments = assignments_array
             teacher.teacher_name = teacher_name
             teacher.save()
+        rasie KeyError("A teacher with this name already exists")
