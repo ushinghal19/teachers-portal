@@ -1,25 +1,15 @@
-from bson import BSONOBJ, ObjectId
-from django.db import models
-from django import forms
+from bson import ObjectId
 from djongo import models
-
-
-# Create your models here.
-from djongo.models import DjongoManager
 
 
 class Error(models.Model):
     """
     Model for Error, identified by error_id (string),
-    with attributes error_type (string), student_name (string),
-    problem_number (string, corresponds with Problem object),
-    assignment_id (string, corresponds with Assignment object)
+    with attributes error_type (string), student_name (string).
     """
     error_id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
-    # problem_number = models.CharField(max_length=1003)
-    # assignment_id = models.CharField(max_length=1000)
 
     objects = models.DjongoManager()
 
@@ -30,13 +20,13 @@ class Error(models.Model):
         USE THIS TO CREATE ERROR
         Method to create Error with attributes:
         error_id (str): primary key
-        error_type (str)
+        error_type (sr)
         student_name (str)
         problem_number (int)
         assignment_id (str)
-        This will instantiate a Problem, Assignment, and Teacher if they do not exist.
-        If Error exists already, raise error.
+        This will instantiate a Problem and put it in the corresponding Assignment.
         """
+
         # TODO: Can we make some of these fields not mandatory? And then the same in the Schema.
         if not Error.objects.filter(error_id=error_id):
             error = Error()
@@ -47,15 +37,16 @@ class Error(models.Model):
             try:
                 problem = Problem.objects.\
                     get(problem_number=Problem.format_problem_id(problem_number, assignment_id))
+
             except Problem.DoesNotExist:
                 problem = Problem.create(problem_number=problem_number,
                                          assignment_id=assignment_id)
-                # raise KeyError(f"The problem with the ID \
-                #           {problem_number} specified does not exist.")
+
             problem.errors.add(error)
             error.save()
             problem.save()
             return error
+
         raise KeyError("An error with this ID has already been created")
 
 
@@ -89,16 +80,18 @@ class Problem(models.Model):
         problem_str = Problem.format_problem_id(problem_number, assignment_id)
         if not Problem.objects.filter(problem_number=problem_str).exists():
             problem = Problem(problem_number=problem_str)
+
             try:
                 assignment = Assignment.objects.get(assignment_id=assignment_id)
+
             except Assignment.DoesNotExist:
                 raise KeyError(f"The assignment with the ID \
                 {assignment_id} specified does not exist.")
+
             assignment.problems.add(problem)
-
             problem.save()
-
             return problem
+
         raise KeyError("A problem with this ID already exists")
 
 
@@ -112,9 +105,6 @@ class Assignment(models.Model):
         to=Problem,
         on_delete=models.CASCADE
     )
-    #
-    # class Meta:
-    #     abstract = True
     objects = models.DjongoManager()
 
     @staticmethod
@@ -128,32 +118,24 @@ class Assignment(models.Model):
         """
         if not Assignment.objects.filter(assignment_id=assignment_id):
             assignment = Assignment(assignment_id=assignment_id)
+
             try:
                 teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
+
             except Teacher.DoesNotExist:
                 raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
+
             teacher.assignments.add(assignment)
             assignment.save()
             return assignment
+
         raise KeyError("An assignment with this ID already exists")
-
-    # def add_problem(self, problem: Problem):
-    #     self.problems.append(vars(problem))
-    #     Teacher.objects.filter()
-
-# class AssignmentActual(Assignment):
-#     pass
-#
-# class AssignmentForm(forms.ModelForm):
-#     class Meta:
-#         model = Assignment
-#         fields = '__all__'
 
 
 class Teacher(models.Model):
     """
     Model for Teacher, identified by _id (as string),
-    with array of assignments.w
+    with array of assignments.
     """
     _id = models.ObjectIdField()
     teacher_name = models.CharField(max_length=100)
