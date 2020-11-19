@@ -51,6 +51,9 @@ class Error(models.Model):
             problem.errors.append(error)
             problem.save()
 
+            return error
+
+        raise KeyError("An error with this ID has already been created")
 
 class Problem(models.Model):
     """
@@ -81,7 +84,9 @@ class Problem(models.Model):
             assignment = Assignment.objects.get(assignment_id = assignment_id)
             assignment.problems.append(problem)
             assignment.save()
+            return problem
 
+        raise KeyError("A problem with this ID already exists")
 
 class Assignment(models.Model):
     """
@@ -111,7 +116,9 @@ class Assignment(models.Model):
             teacher = Teacher.objects.get(teacher_name = teacher_name)
             teacher.assignments.append(assignment)
             teacher.save()
+            return assignment
 
+        raise KeyError("An assignment with this ID already exists")
 
 class Teacher(models.Model):
     """

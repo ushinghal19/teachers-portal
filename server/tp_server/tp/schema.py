@@ -24,18 +24,25 @@ class HypatiaErrorMutationCreate(graphene.Mutation):
     Mutation for Errors from Hypatia.
     """
     class Arguments:
+        error_id = graphene.String()
         error_type = graphene.String()
         student_name = graphene.String()
+        problem_number = graphene.Int()
+        assignment_id = graphene.String()
+        teacher_id = graphene.String()
 
     error = graphene.Field(HypatiaErrorType)
 
     @classmethod
-    def mutate(cls, root, info, **kwargs):
+    def mutate(cls, root, info, error_id: str, error_type: str, student_name: str, problem_number: int,
+               assignment_id: str, teacher_id: str):
         """
         Takes optional additional Error fields and creates a new error.
         """
-        error = Error(kwargs)
-        error.save()
+        error = Error.create(error_id=error_id, error_type=error_type, student_name=student_name,
+                             problem_number=problem_number, assignment_id=assignment_id, teacher_id=teacher_id)
+
+        # error.save()
         return cls(error=error)
 
 
@@ -136,7 +143,7 @@ class ProblemMutationCreate(graphene.Mutation):
         """
 
         problem = Problem.create(problem_number=problem_number, assignment_id=assignment_id)
-        problem.save()
+        # problem.save()
         return cls(problem=problem)
 
 
@@ -174,8 +181,8 @@ class AssignmentMutationCreate(graphene.Mutation):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        assignment = Assignment.create_assignment(assignment_id=assignment_id, teacher_id=teacher_id)
-        assignment.save()
+        assignment = Assignment.create(assignment_id=assignment_id, teacher_id=teacher_id)
+        # assignment.save()
         return cls(assignment=assignment)
 
 
@@ -234,6 +241,8 @@ class Mutation(graphene.ObjectType):
     create_new_error = HypatiaErrorMutationCreate.Field()
     create_new_error_with_id = HypatiaErrorMutationWithID.Field()
     update_error = HypatiaErrorUpdate.Field()
+    create_new_problem = ProblemMutationCreate.Field()
+    create_new_assignment = AssignmentMutationCreate.Field()
 
 
 # ======================== REGISTER QUERY & MUTATION CLASSES =======================================
