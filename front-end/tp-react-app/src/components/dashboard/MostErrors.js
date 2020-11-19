@@ -3,7 +3,7 @@ import './MostErrors.scss'
 import '../login/LoginPage.scss'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-class TotalErrors extends Component {
+class MostErrors extends Component {
     render() {
         const student1 = this.props.student1; // TODO: Figure out what the input type is (list, dict, string, tuple)
         return (
@@ -21,4 +21,4 @@ class TotalErrors extends Component {
     }
 }
 
-export default TotalErrors;
+export default MostErrors;
