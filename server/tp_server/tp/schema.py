@@ -180,7 +180,7 @@ class AssignmentMutationCreate(graphene.Mutation):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        assignment = Assignment.create(assignment_id=assignment_id, teacher_id=teacher_id)
+        assignment = Assignment.create(assignment_id=assignment_id, teacher_name=teacher_id)
         # assignment.save()
         return cls(assignment=assignment)
 
@@ -199,6 +199,24 @@ class TeacherType(DjangoObjectType):
     def resolve_problems(parent, info):
         return parent.assignments
 
+
+class TeacherMutationCreate(graphene.Mutation):
+    """
+    Mutation for problems from Hypatia.
+    """
+    class Arguments:
+        teacher_name = graphene.String()
+
+    teacher = graphene.Field(TeacherType)
+
+    @classmethod
+    def mutate(cls, root, info, teacher_name: str):
+        """
+        Takes optional additional Error fields and creates a new problem.
+        """
+        teacher = Teacher.create(teacher_name=teacher_name)
+        # assignment.save()
+        return cls(teacher=teacher)
 
 # ======================== DEFINING THE QUERY & MUTATION OBJECTS ===================================
 
@@ -242,7 +260,7 @@ class Mutation(graphene.ObjectType):
     update_error = HypatiaErrorUpdate.Field()
     create_new_problem = ProblemMutationCreate.Field()
     create_new_assignment = AssignmentMutationCreate.Field()
-
+    create_new_teacher = TeacherMutationCreate.Field()
 
 # ======================== REGISTER QUERY & MUTATION CLASSES =======================================
 
