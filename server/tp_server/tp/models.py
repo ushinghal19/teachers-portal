@@ -102,7 +102,7 @@ class Assignment(models.Model):
             assignment.problems = problems_array
             assignment.save()
             try:
-                teacher = Teacher.objects.get(teacher_name = teacher_name)
+                teacher = Teacher.objects.filter(teacher_name = teacher_name)[0]
             except Teacher.DoesNotExist:
                 raise KeyError("The teacher name specified does not exist.")
             teacher.assignments.append(assignment)
