@@ -10,19 +10,17 @@ class Error(models.Model):
     Model for Error, identified by error_id (string),
     with attributes error_type (string), student_name (string),
     problem_number (string, corresponds with Problem object),
-    assignment_id (string, corresponds with Assignment object),
-    teacher_id (string, corresponds with Teacher object)
+    assignment_id (string, corresponds with Assignment object)
     """
     error_id = models.CharField(max_length=1000, primary_key=True)
     error_type = models.CharField(max_length=100)
     student_name = models.CharField(max_length=100)
     problem_number = models.CharField(max_length=1003)
     assignment_id = models.CharField(max_length=1000)
-    teacher_id = models.CharField(max_length=100)
 
     @staticmethod
     def create(error_id: str, error_type: str, student_name: str, \
-               problem_number: int, assignment_id: str, teacher_id: str):
+               problem_number: int, assignment_id: str):
         """
         USE THIS TO CREATE ERROR
         Method to create Error with attributes:
@@ -31,7 +29,6 @@ class Error(models.Model):
         student_name (str)
         problem_number (int)
         assignment_id (str)
-        teacher_id (str)
         This will instantiate a Problem, Assignment, and Teacher if they do not exist.
         If Error exists already, raise error.
         """
@@ -42,14 +39,7 @@ class Error(models.Model):
             error.student_name = student_name
             error.problem_number = assignment_id + "_" + str(problem_number)
             error.assignment_id = assignment_id
-            error.teacher_id = teacher_id
             error.save()
-            if Teacher.objects.filter(teacher_name = teacher_name).count() == 0:
-                Teacher.create(teacher_id)
-            if Assignment.objects.filter(assignment_id = assignment_id).count() == 0:
-                Assignment.create(assignment_id, teacher_id)
-            if Problem.objects.filter(problem_number = error.problem_number).count() == 0:
-                Problem.create(problem_number, assignment_id)
             problem = Problem.objects.get(problem_number = error.problem_number)
             problem.errors.append(error)
             problem.save()
