@@ -29,18 +29,17 @@ class HypatiaErrorMutationCreate(graphene.Mutation):
         student_name = graphene.String()
         problem_number = graphene.Int()
         assignment_id = graphene.String()
-        teacher_id = graphene.String()
 
     error = graphene.Field(HypatiaErrorType)
 
     @classmethod
     def mutate(cls, root, info, error_id: str, error_type: str, student_name: str, problem_number: int,
-               assignment_id: str, teacher_id: str):
+               assignment_id: str):
         """
         Takes optional additional Error fields and creates a new error.
         """
         error = Error.create(error_id=error_id, error_type=error_type, student_name=student_name,
-                             problem_number=problem_number, assignment_id=assignment_id, teacher_id=teacher_id)
+                             problem_number=problem_number, assignment_id=assignment_id)
 
         # error.save()
         return cls(error=error)
