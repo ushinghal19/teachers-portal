@@ -213,15 +213,16 @@ class TeacherType(DjangoObjectType):
         fields = ('teacher_name',)
         filter_fields = ['teacher_name']
 
-    assignments = graphene.List(AssignmentType)
+    assignments_below = graphene.List(AssignmentType)
     _id = graphene.String()
 
-    def resolve_assignments(parent, info):
-        if parent.assignments:
-            return [Assignment(assignment_id=dict(assignment)['assignment_id'],
-                               problems=dict(assignment)['problems'])
-                    for assignment in parent.assignments]
-        return parent.assignments
+    def resolve_assignments_below(parent, info):
+        return parent.assignments.all()
+        # if parent.assignments:
+        #     return [Assignment(assignment_id=dict(assignment)['assignment_id'],
+        #                        problems=dict(assignment)['problems'])
+        #             for assignment in parent.assignments]
+        # return parent.assignments
 
     def resolve_id(parent, info):
         return parent._id

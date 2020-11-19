@@ -115,6 +115,7 @@ class Assignment(models.Model):
     #
     # class Meta:
     #     abstract = True
+    objects = models.DjongoManager()
 
     @staticmethod
     def create(assignment_id: str, teacher_id: str):
@@ -127,13 +128,12 @@ class Assignment(models.Model):
         """
         if not Assignment.objects.filter(assignment_id=assignment_id):
             assignment = Assignment(assignment_id=assignment_id)
-            # try:
-            #     teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
-            # except Teacher.DoesNotExist:
-            #     raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
-            # teacher.assignments.append(vars(assignment))
+            try:
+                teacher = Teacher.objects.get(_id=ObjectId(teacher_id))
+            except Teacher.DoesNotExist:
+                raise KeyError(f"The teacher with the ID {teacher_id} specified does not exist.")
+            teacher.assignments.add(assignment)
             assignment.save()
-            # teacher.save()
             return assignment
         raise KeyError("An assignment with this ID already exists")
 
@@ -171,6 +171,6 @@ class Teacher(models.Model):
         initialized with an empty assignments array.
         If Teacher with teacher_id exists already, raise error.
         """
-        teacher = Teacher(teacher_name=teacher_name, assignments=[])
+        teacher = Teacher(teacher_name=teacher_name)
         teacher.save()
         return teacher
