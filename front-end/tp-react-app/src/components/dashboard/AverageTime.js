@@ -3,18 +3,14 @@ import './AverageTime.scss'
 import '../login/LoginPage.scss'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-class TotalErrors extends Component {
+class AverageTime extends Component {
     render() {
-        const student1 = this.props.student1; // TODO: Figure out what the input type is (list, dict, string, tuple)
+        const averageTime = this.props.averageTime; // TODO: Figure out what the input type is (list, dict, string, tuple)
         return (
             <div className='average-time-box'>
-                <div className="tp-head" style={{fontSize: 35,}}>Students With Most Errors</div>
+                <div className="tp-head" style={{fontSize: 35,}}>Average Time Taken</div>
                 <div className="average-time">
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>{student1}</ListGroup.Item>
-                        <ListGroup.Item>{student1}</ListGroup.Item>
-                        <ListGroup.Item>{student1}</ListGroup.Item>
-                    </ListGroup>
+                    On average, students took {averageTime} minutes
                 </div>
             </div>
         );
