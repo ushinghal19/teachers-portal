@@ -1,6 +1,5 @@
 from django.db import models
 from djongo import models
-
 # Create your models here.
 
 
@@ -102,11 +101,15 @@ class Assignment(models.Model):
             assignment.assignment_id = assignment_id
             assignment.problems = problems_array
             assignment.save()
-            teacher = Teacher.objects.get(teacher_name = teacher_name)
+            try:
+                teacher = Teacher.objects.get(teacher_name = teacher_name)
+            except Teacher.DoesNotExist:
+                raise KeyError("The teacher name specified does not exist.")
             teacher.assignments.append(assignment)
             teacher.save()
             return assignment
         raise KeyError("An assignment with this ID already exists")
+
 
 class Teacher(models.Model):
     """
@@ -133,4 +136,5 @@ class Teacher(models.Model):
             teacher.assignments = assignments_array
             teacher.teacher_name = teacher_name
             teacher.save()
+            return teacher
         raise KeyError("A teacher with this name already exists")
