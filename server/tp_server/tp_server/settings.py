@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import logging
 import os
 from pathlib import Path
 
@@ -86,7 +87,7 @@ DATABASES = {
             'NAME': 'TP',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://cluster0.kh0v7.mongodb.net',
+                'host': 'mongodb+srv://cluster0.ky32z.mongodb.net',
                 # 'port': 27017,
                 'username': os.getenv("MONGO_USERNAME"),
                 'password': os.getenv("MONGO_PASSWORD"),
@@ -95,15 +96,38 @@ DATABASES = {
             },
             'LOGGING': {
                 'version': 1,
+'               disable_existing_loggers': False,
+                'handlers': {'console': {
+                            'class': 'logging.StreamHandler',
+                            # 'formatter': 'brief',
+                            'level': 'INFO',
+                            'stream': 'ext://sys.stdout'
+
+                        }},
+                # 'root': {
+                #     'handlers': ['console'],
+                #     'level': 'WARNING',
+                # },
                 'loggers': {
                     'djongo': {
                         'level': 'DEBUG',
+                        'handlers': ['console'],
+                        'propagate': True,
+                    },
+                    'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+                    'django.request': {
+                        'handlers': ['console'],
+                        'level': 'DEBUG',
                         'propagate': False,
+                    },
                     }
                 },
              },
         }
-}
 
 
 # Password validation
@@ -144,6 +168,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 GRAPHENE = {
-    "SCHEMA": "tp.schema.schema"
+    "SCHEMA": "tp.schema.schema",
+    'MIDDLEWARE': [
+        'tp_server.logger.DebugMiddleware'
+    ]
 }
+
