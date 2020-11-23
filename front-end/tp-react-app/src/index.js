@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LoginPage from './components/login/LoginPage.js'
+import ErrorsPerQuestion from './components/dashboard/ErrorsPerQuestion'
 
 ReactDOM.render(
   <React.StrictMode>
-    <LoginPage />
+    <ErrorsPerQuestion/>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,11 +1,12 @@
-.errors-per-question{
-	font-size: 36px;
-    font-style: bold;
+.errors-per-question-chart{
+	width:70vw;
+	height:30vh;
 }
 
 .errors-per-question-box{
-	width:90vw;
-	height:20vh;
+	width:fit-content;
+	height:fit-content;
+	align-content:center;
 	background:#FFFFFF;
 	text-align: left;
 	border-radius: 15.2163px;
