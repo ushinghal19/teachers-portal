@@ -11,6 +11,7 @@ import TPHead from '../TPHead/TPHead.js'
 
 class Dashboard extends Component{
 	render(){
+		getAssignmentStats(321);
 		return(
 			<div className = 'dashboard-page'>
 				<header><TPHead/></header>
@@ -28,6 +29,19 @@ class Dashboard extends Component{
 			</div>
 		);
 	}
+}
+
+const URL = 'http://127.0.0.1:8000/graphql'
+function getAssignmentStats(id){
+	fetch(URL, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json'},
+		body: JSON.stringify({ query: 'getAssignmentStats($id: ID!){assignment(id: $id){studentsByErrors,typeOfErrors,problemErrors,aggregateErrors}}',
+								variables: {"id": id}
+		}),
+	  })
+	  .then(res => res.json())
+	  .then(res => console.log(res.data));
 }
 
 export default Dashboard;
