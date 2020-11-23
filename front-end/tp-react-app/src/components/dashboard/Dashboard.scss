@@ -1,15 +1,17 @@
+.dashboard-page{
+	background-color: #EBEBEB;
+}
 .dashboard-box{
 	margin-left: 5vw;
 	margin-right: 4vw;
-	margin-bottom: 5vw;
-	background-color: #FFFFFF;
-
+	margin-bottom: 5vh;
+	margin-top: 2vh;
 }
 
 .dashboard-content{
 	display:grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 14.7vw 25vw 25vw;
+	grid-template-rows: 12vw 25vw 25vw;
 	grid-gap:10px;
 }
 
