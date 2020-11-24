@@ -11,6 +11,9 @@ djongo = "*"
 python-dotenv = "*"
 dnspython = "*"
 graphene-django = ">=2.0"
+django-filter = "*"
+graphene-django-extras = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.8"
