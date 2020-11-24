@@ -3,17 +3,6 @@ import './ErrorsPerQuestion.scss'
 import '../login/LoginPage.scss'
 import * as V from 'victory';
 
-const data = [  {1: 5}, 
-                {2: 3},
-                {3: 2},
-                {4: 7},
-                {5: 10},
-                {6: 1},
-                {7: 4},
-                {8: 12},
-                {9: 3},
-                {10: 6},]
-
 
 function makeDataUsable(data){
     let newObj = [{"x":0, "y":0}];
@@ -32,8 +21,10 @@ function getTicks(data){
     return(newObj);
 }
 
+
 class ErrorsPerQuestion extends Component {
     render() {
+        const problemErrors = this.props.problemErrors;
         return (
             <div className='errors-per-question-box'>
                 <div className="tp-head" style={{fontSize: 35,}}>Errors Per Question</div>
@@ -53,7 +44,7 @@ class ErrorsPerQuestion extends Component {
                             ticks: {stroke: "grey", size: 5},
                             tickLabels: {fontSize: 15, padding: 4},
                         }}
-                        tickValues = {getTicks(data)}
+                        tickValues = {getTicks(problemErrors)}
                         label = "Question Number"
                     />
                     <V.VictoryAxis dependentAxis crossAxis
@@ -70,7 +61,7 @@ class ErrorsPerQuestion extends Component {
                         label = "Number of Errors"
                     />
                         <V.VictoryBar
-                            data={makeDataUsable(data)}
+                            data={makeDataUsable(problemErrors)}
                             animate={{
                                 duration: 4000,
                                 onLoad: { duration: 1500 }
