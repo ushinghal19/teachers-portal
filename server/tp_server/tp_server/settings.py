@@ -15,11 +15,11 @@ from pathlib import Path
 
 # loading dotenv vila
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -32,7 +32,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,10 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'graphene_django',
     'django_filters',
+    'corsheaders',
     'tp',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,58 +78,56 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tp_server.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-          'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'TP',
-            'ENFORCE_SCHEMA': False,
-            'CLIENT': {
-                'host': 'mongodb+srv://cluster0.ky32z.mongodb.net',
-                # 'port': 27017,
-                'username': os.getenv("MONGO_USERNAME"),
-                'password': os.getenv("MONGO_PASSWORD"),
-                'authSource': 'TP',
-                'authMechanism': 'SCRAM-SHA-1'
-            },
-            'LOGGING': {
-                'version': 1,
-'               disable_existing_loggers': False,
-                'handlers': {'console': {
-                            'class': 'logging.StreamHandler',
-                            # 'formatter': 'brief',
-                            'level': 'INFO',
-                            'stream': 'ext://sys.stdout'
-
-                        }},
-                # 'root': {
-                #     'handlers': ['console'],
-                #     'level': 'WARNING',
-                # },
-                'loggers': {
-                    'djongo': {
-                        'level': 'DEBUG',
-                        'handlers': ['console'],
-                        'propagate': True,
-                    },
-                    'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'TP',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://cluster0.ky32z.mongodb.net',
+            # 'port': 27017,
+            'username': os.getenv("MONGO_USERNAME"),
+            'password': os.getenv("MONGO_PASSWORD"),
+            'authSource': 'TP',
+            'authMechanism': 'SCRAM-SHA-1'
         },
-                    'django.request': {
-                        'handlers': ['console'],
-                        'level': 'DEBUG',
-                        'propagate': False,
-                    },
-                    }
-                },
-             },
-        }
+        'LOGGING': {
+            'version': 1,
+            '               disable_existing_loggers': False,
+            'handlers': {'console': {
+                'class': 'logging.StreamHandler',
+                # 'formatter': 'brief',
+                'level': 'INFO',
+                'stream': 'ext://sys.stdout'
 
+            }},
+            # 'root': {
+            #     'handlers': ['console'],
+            #     'level': 'WARNING',
+            # },
+            'loggers': {
+                'djongo': {
+                    'level': 'DEBUG',
+                    'handlers': ['console'],
+                    'propagate': True,
+                },
+                'django': {
+                    'handlers': ['console'],
+                    'level': 'DEBUG',
+                    'propagate': True,
+                },
+                'django.request': {
+                    'handlers': ['console'],
+                    'level': 'DEBUG',
+                    'propagate': False,
+                },
+            }
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -148,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -162,12 +160,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 GRAPHENE = {
     "SCHEMA": "tp.schema.schema",
@@ -175,4 +171,17 @@ GRAPHENE = {
         'tp_server.logger.DebugMiddleware'
     ]
 }
+CORS_ALLOWED_ORIGINS = [
+   'http://localhost:3000',
+    'https://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'localhost:3000',
+    'localhost:3000/',
+    'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000',
+]
 
+CORS_ALLOW_CREDENTIALS = True
