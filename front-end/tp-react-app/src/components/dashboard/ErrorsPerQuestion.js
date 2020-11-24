@@ -3,8 +3,7 @@ import './ErrorsPerQuestion.scss'
 import '../login/LoginPage.scss'
 import * as V from 'victory';
 
-const data = [{0: 0},
-                {1: 5}, 
+const data = [  {1: 5}, 
                 {2: 3},
                 {3: 2},
                 {4: 7},
@@ -13,21 +12,21 @@ const data = [{0: 0},
                 {7: 4},
                 {8: 12},
                 {9: 3},
-                {10: 6},
-                {11: 9},]
+                {10: 6},]
 
 
 function makeDataUsable(data){
-    let newObj = [];
+    let newObj = [{"x":0, "y":0}];
     for(let i=0; i<data.length; i++){
-        newObj.push({"x":i, "y":data[i][i]});
+        newObj.push({"x":parseInt(Object.keys(data[i])[0]), "y":data[i][parseInt(Object.keys(data[i])[0])]});
     }
     return(newObj);
 }
 
+
 function getTicks(data){
     let newObj = [];
-    for(let i=0; i<data.length; i++){
+    for(let i=0; i<=data.length+1; i++){
         newObj.push(i);
     }
     return(newObj);
@@ -72,13 +71,12 @@ class ErrorsPerQuestion extends Component {
                     />
                         <V.VictoryBar
                             data={makeDataUsable(data)}
-                            // x = {Object.keys(data)}
-                            // y = {Object.values(data)}
                             animate={{
                                 duration: 4000,
                                 onLoad: { duration: 1500 }
                               }}
                             barRatio={.5}
+                            labels={({ datum }) => `${Math.round(datum.y)}`}
                         />
                     </V.VictoryChart>
 
