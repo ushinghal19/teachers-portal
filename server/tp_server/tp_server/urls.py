@@ -20,6 +20,6 @@ from tp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('graphql', GraphQLView.as_view(graphiql=True)),
+    path('graphql', views.PrivateGraphQLView.as_view(graphiql=True)),
     path('test', views.test_view)
 ]
