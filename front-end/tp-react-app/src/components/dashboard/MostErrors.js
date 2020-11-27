@@ -8,7 +8,7 @@ class MostErrors extends Component {
         const student1 = this.props.student1; // TODO: Figure out what the input type is (list, dict, string, tuple)
         return (
             <div className='most-error-box'>
-                <div className="tp-head" style={{fontSize: 35,}}>Students With Most Errors</div>
+                <div className="tp-head" style={{fontSize: 35,}}>Most Errors</div>
                 <div className="most-errors">
                     <ListGroup variant="flush">
                         <ListGroup.Item>{student1}</ListGroup.Item>
