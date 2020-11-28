@@ -10,7 +10,7 @@ import Dropdown from './components/dashboard/Dropdown';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard_test/>
+    <Dropdown/>
   </React.StrictMode>,
   document.getElementById('root')
 );
