@@ -60,7 +60,7 @@ class Dashboard extends Component{
 						<div className='box-1'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
 						<div className='box-2'><LeastErrors student1 = 'Utsav'/></div>
 						<div className='box-3'><MostErrors student1 = 'Utsav'/></div>
-						<div className='box-4'><ErrorsPerQuestion/></div>
+						{/* <div className='box-4'><ErrorsPerQuestion/></div> */}
 						<div className='box-5'><ErrorType/></div>
 						<div className='box-6'><AverageTime/></div>
 					</div>
