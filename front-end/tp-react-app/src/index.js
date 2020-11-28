@@ -5,11 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LoginPage from './components/login/LoginPage.js'
 import Dashboard from './components/dashboard/Dashboard';
+import Dashboard_test from './components/dashboard/Dashboard_test.js';
 import Dropdown from './components/dashboard/Dropdown';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard/>
+    <Dashboard_test/>
   </React.StrictMode>,
   document.getElementById('root')
 );
