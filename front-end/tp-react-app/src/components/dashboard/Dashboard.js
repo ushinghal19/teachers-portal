@@ -10,33 +10,61 @@ import AverageTime from './AverageTime.js'
 import TPHead from '../TPHead/TPHead.js'
 
 const URL = 'http://localhost:8000/graphql';
-let statistics = {assignment: {}};
-function getAssignmentStats(id){
-	fetch(URL, {
-		method: 'POST',
-		// credentials: "same-origin",
-		headers: {
-			"Accept": "application/json",
-			"Referer": "http://localhost:3000",
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({ query: 'query getAssignmentStats($id: ID!){assignment(id: $id){studentsByErrors,typeOfErrors,problemErrors,aggregateErrors}}',
-			variables: {"id": id},
-			operationName: "getAssignmentStats",
-		}),
-	})
-		.then(res => res.json())
-		.then(res => {statistics = res.data;
-						return res})
-		.then(res => console.log(res.data))
-		.then(() => console.log(statistics.assignment.problemErrors));
-}
-
-
 
 class Dashboard extends Component{
+	// Use forceupdate for button: https://reactjs.org/docs/react-component.html#forceupdate 
+	constructor(props) {
+		super(props);
+		this.state = {
+		  error: null,
+		  isLoaded: false,
+		  statistics: {assignment: {}},
+		  id: 321
+		};
+	  }
+	
+	getAssignmentStats(id){
+		fetch(URL, {
+			method: 'POST',
+			headers: {
+				"Accept": "application/json",
+				"Referer": "http://localhost:3000",
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ query: 'query getAssignmentStats($id: ID!){assignment(id: $id){studentsByErrors,typeOfErrors,problemErrors,aggregateErrors}}',
+				variables: {"id": id},
+				operationName: "getAssignmentStats",
+			}),
+		})
+			.then(res => res.json())
+			.then((result) => {
+								this.setState({
+									isLoaded: true,
+									statistics: result.data
+								});
+							},
+							(error) => {
+								this.setState({
+								  isLoaded: true,
+								  error
+								});
+							  }
+			)
+	}
+
+	componentDidMount() {
+		this.getAssignmentStats(this.state.id)
+	}
+
+
 	render(){
-		getAssignmentStats(123)
+		const { error, isLoaded, statistics } = this.state;
+		if (error) {
+		return <div>Error: {error.message}</div>;
+		} else if (!isLoaded) {
+		return <div>Loading...</div>;
+		} else {
+			console.log(statistics.assignment);
 		return(
 			<div className = 'dashboard-page'>
 				<header><TPHead/></header>
@@ -44,9 +72,10 @@ class Dashboard extends Component{
 					<div className='tp-head' style={{fontSize: 45, textAlign: 'left', alignSelf: 'stretch', color: '#252525'}}>Assignment 1</div>
 					<div className='dashboard-content'>
 						<div className='box-1'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
-						<div className='box-2'><LeastErrors student1 = 'Utsav'/></div>
-						<div className='box-3'><MostErrors student1 = 'Utsav'/></div>
-						<div className='box-4'><ErrorsPerQuestion problemErrors = {{"1": 2, "2": 3, "3":4, "4":2}} /></div>
+            <div className='box-2'><LeastErrors students = {statistics.assignment.studentsByErrors}/></div>
+						<div className='box-3'><MostErrors students = {statistics.assignment.studentsByErrors}/></div>
+						<div className='box-4'><ErrorsPerQuestion problemErrors = {statistics.assignment.problemErrors} /></div>
+						<div className='box-4'></div>
 						<div className='box-5'><ErrorType/></div>
 						<div className='box-6'><AverageTime/></div>
 					</div>
@@ -54,6 +83,7 @@ class Dashboard extends Component{
 			</div>
 		);
 	}
+}
 }
 
 export default Dashboard;
