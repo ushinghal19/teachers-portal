@@ -26,8 +26,13 @@ function getTicks(data){
 
 
 class ErrorsPerQuestion extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            problemErrors: this.props.problemErrors,
+        };
+    }
     render() {
-        const problemErrors = this.props.problemErrors;
         return (
             <div className='errors-per-question-box'>
                 <div className="tp-head" style={{fontSize: 35,}}>Errors Per Question</div>
@@ -48,7 +53,7 @@ class ErrorsPerQuestion extends Component {
                             ticks: {stroke: "grey", size: 5},
                             tickLabels: {fontSize: 15, padding: 4},
                         }}
-                        tickValues = {getTicks(problemErrors)}
+                        tickValues = {getTicks(this.state.problemErrors)}
                         label = "Question Number"
                     />
                     <V.VictoryAxis dependentAxis crossAxis
@@ -65,7 +70,7 @@ class ErrorsPerQuestion extends Component {
                         label = "Number of Errors"
                     />
                         <V.VictoryBar
-                            data = {makeDataUsable(problemErrors)}
+                            data = {makeDataUsable(this.state.problemErrors)}
                             animate={{
                                 duration: 4000,
                                 onLoad: { duration: 1500 }
