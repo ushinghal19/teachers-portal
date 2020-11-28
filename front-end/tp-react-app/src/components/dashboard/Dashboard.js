@@ -32,21 +32,7 @@ function getAssignmentStats(id){
 		.then(() => console.log(statistics.assignment.problemErrors));
 }
 
-// function getCookie(name) {
-// 	var cookieValue = null;
-// 	if (document.cookie && document.cookie !== '') {
-// 		var cookies = document.cookie.split(';');
-// 		for (var i = 0; i < cookies.length; i++) {
-// 			var cookie = jQuery.trim(cookies[i]);
-// 			// Does this cookie string begin with the name we want?
-// 			if (cookie.substring(0, name.length + 1) === (name + '=')) {
-// 				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-// 				break;
-// 			}
-// 		}
-// 	}
-// 	return cookieValue;
-// }
+
 
 class Dashboard extends Component{
 	render(){
@@ -60,7 +46,7 @@ class Dashboard extends Component{
 						<div className='box-1'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
 						<div className='box-2'><LeastErrors student1 = 'Utsav'/></div>
 						<div className='box-3'><MostErrors student1 = 'Utsav'/></div>
-						{/* <div className='box-4'><ErrorsPerQuestion/></div> */}
+						<div className='box-4'><ErrorsPerQuestion problemErrors = {{"1": 2, "2": 3, "3":4, "4":2}} /></div>
 						<div className='box-5'><ErrorType/></div>
 						<div className='box-6'><AverageTime/></div>
 					</div>
