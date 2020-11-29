@@ -12,7 +12,7 @@ class Dropdown extends Component{
         options: [
           {value: 'a', label: 'a'},
         ],
-        teacher_id: 1,
+        teacher_id: '5fb6d6ce00c239d5bffb4b15',
       };
     }
     handleChange = selectedOption => {
