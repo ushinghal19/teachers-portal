@@ -17,12 +17,18 @@ class Dashboard extends Component{
 				<div className = 'dashboard-box'>
 					<div className='tp-head' style={{fontSize: 45, textAlign: 'left', alignSelf: 'stretch'}}>Assignment 1</div>
 					<div className='dashboard-content'>
-						<div className='box-1'><TotalErrors numErrors="32"/></div>
-						<div className='box-2'><LeastErrors student1 = "Utsav"/></div>
-						<div className='box-3'><MostErrors student1="Utsav"/></div>
-						<div className='box-4'><ErrorsPerQuestion/></div>
-						<div className='box-5'><ErrorType/></div>
-						<div className='box-6'><AverageTime/></div>
+						<div className='row one'>
+							<div className='col one'><TotalErrors numErrors="32"/></div>
+							<div className='col two'><LeastErrors student1 = "Utsav"/></div>
+							<div className='col two'><MostErrors student1="Utsav"/></div>
+						</div>
+						<div className='row two'>
+							<div className='col one' ><ErrorsPerQuestion/></div>
+						</div>
+						<div className='row three'>
+							<div className='col one'><ErrorType/></div>
+							<div className='col one'><AverageTime/></div>
+						</div>
 					</div>
 				</div>
 			</div>
