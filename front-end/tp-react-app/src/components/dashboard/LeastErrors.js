@@ -15,7 +15,7 @@ class LeastErrors extends Component {
         //console.log(Object.keys(this.state.students));
         return (
             <div className='least-error-box'>
-                <div className="tp-head" style={{fontSize: 35,}}>Least Errors</div>
+                <div className="tp-head" style={{fontSize: 35,}}>Students With Least Errors</div>
                 <div className="least-errors">
                     <ListGroup variant="flush">
                         <ListGroup.Item><p style={{float: "left"}}>{Object.keys(this.state.students)[0]}</p><p style={{float: "right"}}>{this.state.students[Object.keys(this.state.students)[0]]}</p></ListGroup.Item>
