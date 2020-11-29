@@ -67,9 +67,7 @@ class Dashboard extends Component{
 			console.log(statistics.assignment);
 		return(
 			<div className = 'dashboard-page'>
-				<header><TPHead/></header>
 				<div className = 'dashboard-box'>
-					<div className='tp-head' style={{fontSize: 45, textAlign: 'left', alignSelf: 'stretch', color: '#252525'}}>Assignment 1</div>
 					<div className='dashboard-content'>
 						<div className='box-1'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
             			<div className='box-2'><LeastErrors students = {statistics.assignment.studentsByErrors}/></div>
