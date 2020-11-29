@@ -6,49 +6,37 @@
 	position: absolute; left: 50%; top: 5%;
     transform: translate(-50%);
 	margin-bottom: 4vh;
-	margin-top: 0vh;
 }
 
 .dashboard-content{
-	width:100%;
-	background-color:grey;
-	display:grid;
-	grid-template-columns:33% 33% 33%;
-	grid-template-rows: 210px 50vh 40vh;
-	grid-gap:10px;
+	.row{
+		display:flex;
+		padding-bottom: 1%;
+		padding-top: 1%;
+		&.one{
+			width:100%;
+
+			.col{
+				&.one{
+				}
+				&.two{
+				}
+
+			}
+		}
+		&.two{
+			height:55vh;
+			width:100%;
+			.col{
+				&.one{
+				}
+			}
+		}
+		&.three{
+			height:40vh;
+			width:100%;
+
+		}
+	}
 }
 
-.box-1{
-	grid-column-start:1;
-	grid-column-end:2;
-	background-color:red;
-}
-
-.box-2{
-	grid-column-start:2;
-	grid-column-end:3;
-	background-color:blue;
-
-}
-
-.box-3{
-	grid-column-start:3;
-	grid-column-end:4;
-	background-color:orange;
-
-}
-
-.box-4{
-	grid-column-start:1;
-	grid-column-end:4;
-}
-
-.box-5{
-	grid-column-start:1;
-	grid-column-end:3;
-}
-
-.box-6{
-	grid-column-start:3;
-	grid-column-end:4;
-}
