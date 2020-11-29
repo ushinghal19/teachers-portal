@@ -20,3 +20,10 @@
       * Least # of Errors per Server Call
    6. Students who need to improve most (Bottom 3-5)
       * Most # of Errors per Server Call
+
+
+## Known Issues and Fixes:
+* An upcoming release of Djongo will fix this, but for now, navigate to your pipenv and find the 
+file `\.virtualenvs\<your-pipenv>\Lib\site-packages\djongo\models\fields.py`. Go to line 1014 and 
+change `def from_db_value(self, value, expression, connection, context):` to 
+`    def from_db_value(self, value, expression, connection, context=None):`
