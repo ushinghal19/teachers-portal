@@ -10,7 +10,7 @@ class Dropdown extends Component{
       this.state = {
         selectedOption: null,
         options: [
-          {value: 'a', label: 'a'},
+          {value: '0', label: 'Test Assignment'},
         ],
         teacher_id: '5fb6d6ce00c239d5bffb4b15',
       };
@@ -45,7 +45,7 @@ class Dropdown extends Component{
                   var x = result.data.teacher.assignments_below;
                   for (let i = 0; i < x.length; i++) {
                     this.setState(prevState => ({
-                      objects: [...prevState.objects, {value: x[i], label: x[i]}]
+                      objects: [...prevState.objects, {value: x[i].assignment_id, label: x[i].assignment_id}]
                     }));
                   }
                 },
