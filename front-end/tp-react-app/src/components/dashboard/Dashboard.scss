@@ -9,6 +9,7 @@
 }
 
 .dashboard-content{
+
 	.row{
 		display:flex;
 		padding-bottom: 1%;
@@ -25,7 +26,7 @@
 			}
 		}
 		&.two{
-			height:55vh;
+			height:40vh;
 			width:100%;
 			.col{
 				&.one{
