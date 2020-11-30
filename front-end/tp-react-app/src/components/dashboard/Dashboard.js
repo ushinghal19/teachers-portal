@@ -62,7 +62,7 @@ class Dashboard extends Component{
 		if (error) {
 		return <div>Error: {error.message}</div>;
 		} else if (!isLoaded) {
-		return <div>Loading...</div>;
+		return <div>Loading...</div>; //replace this with a nice loading animation
 		} else {
 			console.log(statistics.assignment);
 		return(
