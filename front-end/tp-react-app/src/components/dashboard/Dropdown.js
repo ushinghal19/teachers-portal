@@ -4,6 +4,8 @@ import './Dropdown.scss'
 import Dashboard from './Dashboard.js'
 import TPHead from '../TPHead/TPHead.js'
 
+const URL = 'http://localhost:8000/graphql';
+
 class Dropdown extends Component{
     constructor(props) {
       super(props);
