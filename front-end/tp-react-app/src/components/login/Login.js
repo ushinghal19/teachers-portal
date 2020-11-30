@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import './Login.scss'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {BrowserRouter, Link} from 'react-router-dom';
-
-
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
 		super(props);
 		this.state = {
           username: "",
-          password: ""
+          password: "",
+          successfulLogin: false
 		};
 	  }
 	
@@ -20,12 +19,23 @@ class Login extends Component {
     }
 
     handleFormSubmit = (e) => {
-        <Link to='/dashboard'/>
+        //if not successful (api returns 401 or 400 error I think):
+
+        //render in an error message
+
+        //if login successful:
+        e.preventDefault();
+        this.setState({ successfulLogin: "/dashboard"});
     }
+
     render() {
+        if (this.state.successfulLogin){
+            return <Redirect to={this.state.successfulLogin} />
+        }
         return (
             <div className='LoginBox'>
                 <div className="LoginContent">
+                    {this.state.username}
                     <h1 className="loginHead">Teacher Login</h1>
                     <Form className="loginForm" onSubmit = {e => this.handleFormSubmit(e)}>
                         <Form.Group controlId="loginUsername">
