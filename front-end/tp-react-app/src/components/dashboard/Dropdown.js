@@ -12,7 +12,7 @@ class Dropdown extends Component{
         options: [
           {value: '0', label: 'Test Assignment'},
         ],
-        teacher_id: '5fb6d6ce00c239d5bffb4b15',
+        teacherId: '5fb6d6ce00c239d5bffb4b15',
       };
     }
     handleChange = selectedOption => {
@@ -35,17 +35,17 @@ class Dropdown extends Component{
           "Referer": "http://localhost:3000",
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teacher(id: $id){assignments_below}}',
+        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teacher(id: $id){assignmentsBelow{assignmentId}}}',
           variables: {"id": id},
           operationName: "getTeacherAssignments",
         }),
       })
         .then(res => res.json())
         .then((result) => {
-                  var x = result.data.teacher.assignments_below;
+                  var x = result.data.teacher.assignmentsBelow;
                   for (let i = 0; i < x.length; i++) {
                     this.setState(prevState => ({
-                      objects: [...prevState.objects, {value: x[i].assignment_id, label: x[i].assignment_id}]
+                      objects: [...prevState.objects, {value: x[i].assignmentId, label: x[i].assignmentId}]
                     }));
                   }
                 },
@@ -58,7 +58,7 @@ class Dropdown extends Component{
     }
   
     componentDidMount() {
-      this.getTeacherAssignments(this.state.teacher_id)
+      this.getTeacherAssignments(this.state.teacherId)
     }
     
     render() {
