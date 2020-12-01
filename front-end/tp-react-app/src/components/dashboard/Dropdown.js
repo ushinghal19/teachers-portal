@@ -37,17 +37,17 @@ class Dropdown extends Component{
           "Referer": "http://localhost:3000",
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teacher(id: $id){assignmentsBelow{assignmentId}}}',
+        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teacher(id: $id){assignments_below{assignment_id}}}',
           variables: {"id": id},
           operationName: "getTeacherAssignments",
         }),
       })
         .then(res => res.json())
         .then((result) => {
-                  var x = result.data.teacher.assignmentsBelow;
+                  var x = result.data.teacher.assignments_below;
                   for (let i = 0; i < x.length; i++) {
                     this.setState(prevState => ({
-                      objects: [...prevState.objects, {value: x[i].assignmentId, label: x[i].assignmentId}]
+                      objects: [...prevState.objects, {value: x[i].assignment_id, label: x[i].assignment_id}]
                     }));
                   }
                 },
