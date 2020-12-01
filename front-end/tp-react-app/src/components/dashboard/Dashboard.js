@@ -86,9 +86,7 @@ class Dashboard extends Component{
 			console.log(statistics.assignment);
 		return(
 			<div className = 'dashboard-page'>
-				<header><TPHead/></header>
 				<div className = 'dashboard-box'>
-					<div className='tp-head' style={{fontSize: 45, textAlign: 'left', alignSelf: 'stretch', color: '#252525'}}>Assignment 1</div>
 					<div className='dashboard-content'>
 						
 						<div className='row one'>
