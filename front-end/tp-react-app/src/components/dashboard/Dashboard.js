@@ -8,6 +8,8 @@ import ErrorsPerQuestion from './ErrorsPerQuestion.js'
 import ErrorType from './ErrorType.js'
 import AverageTime from './AverageTime.js'
 import TPHead from '../TPHead/TPHead.js'
+import RingLoader from 'react-spinners/RingLoader'
+import { css } from '@emotion/core'
 
 const URL = 'http://localhost:8000/graphql';
 
@@ -62,7 +64,24 @@ class Dashboard extends Component{
 		if (error) {
 		return <div>Error: {error.message}</div>;
 		} else if (!isLoaded) {
-		return <div>Loading...</div>; //replace this with a nice loading animation
+			const loader = css`
+				display: block;
+				margin: 0 auto;
+				border-color: red;
+			`;
+			return (
+				<div>
+					<header><TPHead/></header>
+					<div className='loading-page'>
+						<RingLoader 
+							css={loader}
+							size={400}
+							color={"#1FB299"}/>
+						<br/>
+						<div className='tp-head' style={{fontSize: 45, alignSelf: 'stretch', color: '#252525'}}>Loading data...</div>
+					</div>
+				</div>
+			);
 		} else {
 			console.log(statistics.assignment);
 		return(
@@ -71,18 +90,22 @@ class Dashboard extends Component{
 				<div className = 'dashboard-box'>
 					<div className='tp-head' style={{fontSize: 45, textAlign: 'left', alignSelf: 'stretch', color: '#252525'}}>Assignment 1</div>
 					<div className='dashboard-content'>
+						
 						<div className='row one'>
 							<div className='col one'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
 							<div className='col two'><LeastErrors students = {statistics.assignment.studentsByErrors}/></div>
 							<div className='col two'><MostErrors students = {statistics.assignment.studentsByErrors}/></div>
 						</div>
+
 						<div className='row two'>
 							<div className='col one' ><ErrorsPerQuestion problemErrors= {statistics.assignment.problemErrors}/></div>
 						</div>
+						
 						<div className='row three'>
 							<div className='col one'><ErrorType errorTypes = {statistics.assignment.typeOfErrors}/></div>
 							<div className='col one'><AverageTime/></div>
 						</div>
+
 					</div>
 				</div>
 			</div>
