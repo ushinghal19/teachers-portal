@@ -2,45 +2,48 @@
 	background-color: #EBEBEB;
 }
 .dashboard-box{
-	margin-left: 5vw;
-	margin-right: 4vw;
-	margin-bottom: 5vh;
-	margin-top: 2vh;
+	width:80%;
+	position: absolute; left: 50%; top: 5%;
+    transform: translate(-50%);
+	margin-bottom: 4vh;
+}
+
+.loading-page{
+	padding-top: 18vh;
+	background-color: #E5E5E5;
+	padding-bottom: 23.5vh;
 }
 
 .dashboard-content{
-	display:grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 12vw 25vw 25vw;
-	grid-gap:10px;
+
+	.row{
+		display:flex;
+		padding-bottom: 1%;
+		padding-top: 1%;
+		&.one{
+			width:100%;
+
+			.col{
+				&.one{
+				}
+				&.two{
+				}
+
+			}
+		}
+		&.two{
+			height:40vh;
+			width:100%;
+			.col{
+				&.one{
+				}
+			}
+		}
+		&.three{
+			height:40vh;
+			width:100%;
+
+		}
+	}
 }
 
-.box-1{
-	grid-column-start:1;
-	grid-column-end:2;
-}
-
-.box-2{
-	grid-column-start:3;
-	grid-column-end:4;
-}
-
-.box-3{
-	grid-column-start:5;
-	grid-column-end:6;
-}
-
-.box-4{
-	grid-column-start:1;
-	grid-column-end:6;
-}
-
-.box-5{
-	grid-column-start:1;
-	grid-column-end:4;
-}
-
-.box-6{
-	grid-column-start:4;
-	grid-column-end:6;
-}

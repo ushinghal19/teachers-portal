@@ -3,13 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import LoginPage from './components/login/LoginPage.js'
-import Dashboard from './components/dashboard/Dashboard';
-import Dropdown from './components/dashboard/Dropdown';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dropdown/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
