@@ -78,7 +78,7 @@ class Dropdown extends Component{
         content = <div className='null-option'><p>Please select an assignment to view statistics!</p></div>
       } else {
         content = <div className='some-option'>
-                    <Dashboard error={null} isLoaded={false} statistics={{assignment: {}}} id={this.state.selectedOption}/>
+                    <Dashboard key={this.state.selectedOption.value} error={null} isLoaded={false} statistics={{assignment: {}}} id={this.state.selectedOption.value}/>
                   </div>
       }
       return (
