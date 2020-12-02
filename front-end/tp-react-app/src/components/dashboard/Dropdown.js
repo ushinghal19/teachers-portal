@@ -4,7 +4,17 @@ import './Dropdown.scss'
 import Dashboard from './Dashboard.js'
 import TPHead from '../TPHead/TPHead.js'
 
+// GraphQL URL
 const URL = 'http://localhost:8000/graphql';
+
+// Style for Dropdown
+// Font size is handled in .scss
+const customStyles = {
+  control: base => ({
+    ...base, 
+    height: 45, minHeight: 45
+  })
+}
 
 class Dropdown extends Component{
     constructor(props) {
@@ -37,7 +47,7 @@ class Dropdown extends Component{
                   var TeacherAssignments = result.data.teachers[0].assignmentsBelow;
                   var allAssignments = [];
                   for (let i = 0; i < TeacherAssignments.length; i++) {
-                    allAssignments.push({value: TeacherAssignments[i].assignmentId, label: TeacherAssignments[i].assignmentId})
+                    allAssignments.push({value: TeacherAssignments[i].assignmentId, label: "Assignment "+TeacherAssignments[i].assignmentId})
                     }
                     this.setState({options: allAssignments})
                 },
@@ -57,17 +67,19 @@ class Dropdown extends Component{
       const { selectedOption } = this.state;
       let content;
       if (this.state.selectedOption == null) {
-        content = <div className='null-option'><p>Please select an assignment to view statistics!</p></div>
+        content = <div className='null-option'><p>Please select an assignment to teacher statistics!</p></div>
       } else {
         content = <div className='some-option'>
                     <Dashboard error={null} isLoaded={false} statistics={{assignment: {}}} id={this.state.selectedOption}/>
                   </div>
       }
       return (
-        <div>
+        <div className='dropdown-box'>
           <header><TPHead/></header>
           <div className='dropdown'>
             <Select
+              styles={customStyles}
+              placeholder={"Select an assignment..."}
               value={selectedOption}
               onChange={this.handleChange}
               options={this.state.options}

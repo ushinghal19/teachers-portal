@@ -1,18 +1,19 @@
 .dropdown{
-    background-color: #EBEBEB;
     width: 30%;
     margin-top: 2vh;
     margin-bottom: 2vh;
     margin-left: 35vw;
-    margin-right: 35bw;
-    box-shadow: none;
+    margin-right: 35vw;
+    text-align: left;
+    font-size: 20px;
 }
 
 .null-option{
-    text-align: center;
-    
+    text-align: center;    
+    padding-bottom: 66.7vh;
+    background-color: #e5e5e5;
 }
 
-.some-option{
-	background-color: #EBEBEB;
+.dropdown-box{
+    background-color: #e5e5e5;
 }

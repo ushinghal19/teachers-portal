@@ -1,9 +1,11 @@
 .dashboard-page{
-	background-color: #EBEBEB;
+	background-color: #E5E5E5;
 }
 .dashboard-box{
 	width:80%;
-	position: absolute; left: 50%; top: 5%;
+	//position: absolute; 
+	margin-left: 50%;
+	top: 5%;
     transform: translate(-50%);
 	margin-bottom: 4vh;
 }
