@@ -4,7 +4,17 @@ import './Dropdown.scss'
 import Dashboard from './Dashboard.js'
 import TPHead from '../TPHead/TPHead.js'
 
+// GraphQL URL
 const URL = 'http://localhost:8000/graphql';
+
+// Style for Dropdown
+// Font size is handled in .scss
+const customStyles = {
+  control: base => ({
+    ...base, 
+    height: 45, minHeight: 45
+  })
+}
 
 class Dropdown extends Component{
     constructor(props) {
@@ -68,7 +78,7 @@ class Dropdown extends Component{
           <header><TPHead/></header>
           <div className='dropdown'>
             <Select
-              styles={"background-color:red;"}
+              styles={customStyles}
               placeholder={"Select an assignment..."}
               value={selectedOption}
               onChange={this.handleChange}
