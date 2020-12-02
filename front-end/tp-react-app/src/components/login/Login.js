@@ -18,7 +18,7 @@ class Login extends Component {
         this.setState({[key]: e.target.value});
     }
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit = e => {
         //if not successful (api returns 401 or 400 error I think):
 
         //render in an error message
@@ -35,7 +35,6 @@ class Login extends Component {
         return (
             <div className='LoginBox'>
                 <div className="LoginContent">
-                    {this.state.username}
                     <h1 className="loginHead">Teacher Login</h1>
                     <Form className="loginForm" onSubmit = {e => this.handleFormSubmit(e)}>
                         <Form.Group controlId="loginUsername">
@@ -52,8 +51,7 @@ class Login extends Component {
                             Login
                         </Button>
                     </Form>
-                </div>
-                
+                </div>     
             </div>
         );
     }

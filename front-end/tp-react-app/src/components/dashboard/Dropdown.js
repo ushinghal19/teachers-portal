@@ -19,16 +19,23 @@ const customStyles = {
 class Dropdown extends Component{
     constructor(props) {
       super(props);
+      
+      // State of the dropdown:
+      // selectedOption is currently selected assignment, defaults to null if none selected
+      // options is array of assignment IDs in form {value: assignmentID, label: Assignment ???}
       this.state = {
         selectedOption: null,
         options: [],
         teacherId: '5fb6d6ce00c239d5bffb4b15',
       };
     }
+
+    // Changes state of dropdown when different assignment selected
     handleChange = selectedOption => {
         this.setState({ selectedOption });
       };
-
+    
+    // Run query to fill dropdown options with assignments
     getTeacherAssignments(id){
       fetch(URL, {
         method: 'POST',
@@ -58,7 +65,8 @@ class Dropdown extends Component{
                   }
         )
     }
-  
+    
+    // Fill dropdown options with assignments
     componentDidMount() {
       this.getTeacherAssignments(this.state.teacherId)
     }
@@ -67,7 +75,7 @@ class Dropdown extends Component{
       const { selectedOption } = this.state;
       let content;
       if (this.state.selectedOption == null) {
-        content = <div className='null-option'><p>Please select an assignment to teacher statistics!</p></div>
+        content = <div className='null-option'><p>Please select an assignment to view statistics!</p></div>
       } else {
         content = <div className='some-option'>
                     <Dashboard error={null} isLoaded={false} statistics={{assignment: {}}} id={this.state.selectedOption}/>
