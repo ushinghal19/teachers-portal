@@ -9,6 +9,8 @@ import ErrorType from './ErrorType.js'
 import AverageTime from './AverageTime.js'
 import RingLoader from 'react-spinners/RingLoader'
 import { css } from '@emotion/core'
+import Button from 'react-bootstrap/Button'
+import { ArrowRepeat } from 'react-bootstrap-icons'
 
 const URL = 'http://localhost:8000/graphql';
 
@@ -57,6 +59,11 @@ class Dashboard extends Component{
 		this.getAssignmentStats(this.state.id)
 	}
 
+	handleRefresh = e => {
+		e.preventDefault();
+		this.setState({isLoaded: false});
+		this.getAssignmentStats(this.state.id);
+	};
 
 	render(){
 		const { error, isLoaded, statistics } = this.state;
@@ -70,6 +77,7 @@ class Dashboard extends Component{
 			`;
 			return (
 					<div className='loading-page'>
+						<Button className='refresh-button' size='lg' variant="info" onClick={e => this.handleRefresh(e)}>Refresh <ArrowRepeat size={25}/></Button>
 						<RingLoader 
 							css={loader}
 							size={400}
@@ -79,9 +87,9 @@ class Dashboard extends Component{
 					</div>
 			);
 		} else {
-			//add conditionals to check which are empty, set var and call it bellow
 		return(
 			<div className = 'dashboard-page'>
+				<Button className='refresh-button' size='lg' variant="info" onClick={e => this.handleRefresh(e)}>Refresh <ArrowRepeat size={25}/></Button>
 				<div className = 'dashboard-box'>
 					<div className='dashboard-content'>
 						
