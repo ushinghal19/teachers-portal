@@ -7,7 +7,6 @@ import MostErrors from './MostErrors.js'
 import ErrorsPerQuestion from './ErrorsPerQuestion.js'
 import ErrorType from './ErrorType.js'
 import AverageTime from './AverageTime.js'
-import TPHead from '../TPHead/TPHead.js'
 import RingLoader from 'react-spinners/RingLoader'
 import { css } from '@emotion/core'
 
@@ -70,8 +69,6 @@ class Dashboard extends Component{
 				border-color: red;
 			`;
 			return (
-				<div>
-					<header><TPHead/></header>
 					<div className='loading-page'>
 						<RingLoader 
 							css={loader}
@@ -80,10 +77,8 @@ class Dashboard extends Component{
 						<br/>
 						<div className='tp-head' style={{fontSize: 45, alignSelf: 'stretch', color: '#252525'}}>Loading data...</div>
 					</div>
-				</div>
 			);
 		} else {
-			console.log(statistics.assignment);
 		return(
 			<div className = 'dashboard-page'>
 				<div className = 'dashboard-box'>

@@ -4,7 +4,6 @@ import {
   Route,
 } from "react-router-dom";
 import './App.scss';
-import Dashboard from "./components/dashboard/Dashboard";
 import LoginPage from "./components/login/LoginPage";
 import Dropdown from "./components/dashboard/Dropdown";
 

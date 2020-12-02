@@ -3,8 +3,6 @@ import './ErrorType.scss'
 import '../login/LoginPage.scss'
 import * as V from 'victory';
 
-const data = {"LogicError":23, "MathError":17, "ChessError":5, "CodeError":15}
-
 function makeDataUsable(data){
     let newList = []
     for (const key in data) {

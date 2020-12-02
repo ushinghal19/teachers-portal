@@ -64,10 +64,12 @@ class Dropdown extends Component{
                   </div>
       }
       return (
-        <div>
+        <div className='dropdown-box'>
           <header><TPHead/></header>
           <div className='dropdown'>
             <Select
+              styles={"background-color:red;"}
+              placeholder={"Select an assignment..."}
               value={selectedOption}
               onChange={this.handleChange}
               options={this.state.options}
