@@ -86,18 +86,18 @@ class Dashboard extends Component{
 					<div className='dashboard-content'>
 						
 						<div className='row one'>
-							<div className='col one'><TotalErrors numErrors = {statistics.assignment.aggregateErrors}/></div>
-							<div className='col two'><LeastErrors students = {statistics.assignment.studentsByErrors}/></div>
-							<div className='col two'><MostErrors students = {statistics.assignment.studentsByErrors}/></div>
+							<div className='col one'><TotalErrors key = {this.state.id} numErrors = {statistics.assignment.aggregateErrors}/></div>
+							<div className='col two'><LeastErrors key = {this.state.id} students = {statistics.assignment.studentsByErrors}/></div>
+							<div className='col two'><MostErrors key = {this.state.id} students = {statistics.assignment.studentsByErrors}/></div>
 						</div>
 
 						<div className='row two'>
-							<div className='col one' ><ErrorsPerQuestion problemErrors= {statistics.assignment.problemErrors}/></div>
+							<div className='col one' ><ErrorsPerQuestion key = {this.state.id} problemErrors= {statistics.assignment.problemErrors}/></div>
 						</div>
 						
 						<div className='row three'>
-							<div className='col one'><ErrorType errorTypes = {statistics.assignment.typeOfErrors}/></div>
-							<div className='col one'><AverageTime/></div>
+							<div className='col one'><ErrorType key = {this.state.id} errorTypes = {statistics.assignment.typeOfErrors}/></div>
+							<div className='col one'><AverageTime key = {this.state.id} /></div>
 						</div>
 
 					</div>
