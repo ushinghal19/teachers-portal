@@ -67,7 +67,7 @@ class Dropdown extends Component{
       const { selectedOption } = this.state;
       let content;
       if (this.state.selectedOption == null) {
-        content = <div className='null-option'><p>Please select an assignment to teacher statistics!</p></div>
+        content = <div className='null-option'><p>Please select an assignment to view statistics!</p></div>
       } else {
         content = <div className='some-option'>
                     <Dashboard error={null} isLoaded={false} statistics={{assignment: {}}} id={this.state.selectedOption}/>
