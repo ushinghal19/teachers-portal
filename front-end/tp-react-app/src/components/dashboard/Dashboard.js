@@ -79,6 +79,7 @@ class Dashboard extends Component{
 					</div>
 			);
 		} else {
+			//add conditionals to check which are empty, set var and call it bellow
 		return(
 			<div className = 'dashboard-page'>
 				<div className = 'dashboard-box'>
