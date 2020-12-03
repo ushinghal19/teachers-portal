@@ -1,0 +1,66 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AssignmentMutationCreate {
+  assignment: AssignmentType
+}
+
+type AssignmentType {
+  assignmentId: String!
+  problemsBelow: [ProblemType]
+  aggregateErrors: Int
+  problemErrors: GenericScalar
+  typeOfErrors: GenericScalar
+  studentsByErrors: GenericScalar
+}
+
+type ErrorMutationCreate {
+  error: ErrorType
+}
+
+type ErrorType {
+  errorId: String!
+  errorType: String
+  studentName: String!
+}
+
+scalar GenericScalar
+
+type Mutation {
+  createNewError(assignmentId: String, errorId: String, errorType: String, problemNumber: Int, studentName: String): ErrorMutationCreate
+  createNewProblem(assignmentId: String, problemNumber: Int): ProblemMutationCreate
+  createNewAssignment(assignmentId: String, teacherId: String): AssignmentMutationCreate
+  createNewTeacher(teacherName: String): TeacherMutationCreate
+}
+
+type ProblemMutationCreate {
+  problem: ProblemType
+}
+
+type ProblemType {
+  problemNumber: String!
+  errorsBelow: [ErrorType]
+}
+
+type Query {
+  hypatiaError(id: ID!): ErrorType
+  problem(id: ID!): ProblemType
+  assignment(id: ID!): AssignmentType
+  teacher(id: ID!): TeacherType
+  hypatiaErrors(errorId: String, errorType: String, studentName: String, id: ID): [ErrorType]
+  problems(problemNumber: String, id: ID): [ProblemType]
+  assignments(assignmentId: String, id: ID): [AssignmentType]
+  teachers(teacherName: String, id: ID): [TeacherType]
+}
+
+type TeacherMutationCreate {
+  teacher: TeacherType
+}
+
+type TeacherType {
+  teacherName: String!
+  assignmentsBelow: [AssignmentType]
+  Id: String
+}
