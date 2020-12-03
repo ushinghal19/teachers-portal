@@ -19,10 +19,10 @@ class Dashboard extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-		  error: null,
-		  isLoaded: false,
-		  statistics: {assignment: {}},
-		  id: 321
+		  error: this.props.error,
+		  isLoaded: this.props.isLoaded,
+		  statistics: this.props.statistics,
+		  id: this.props.id
 		};
 	  }
 	
