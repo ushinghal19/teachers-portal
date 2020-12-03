@@ -60,15 +60,17 @@ class AssignmentMutationCreate(graphene.Mutation):
     class Arguments:
         assignment_id = graphene.String()
         teacher_id = graphene.String()
+        assignment_name = graphene.String()
 
     assignment = graphene.Field(AssignmentType)
 
     @classmethod
-    def mutate(cls, root, info, assignment_id: str, teacher_id: str):
+    def mutate(cls, root, info, assignment_id: str, teacher_id: str, assignment_name: str):
         """
         Takes optional additional Error fields and creates a new problem.
         """
-        assignment = Assignment.create(assignment_id=assignment_id, teacher_id=teacher_id)
+        assignment = Assignment.create(assignment_id=assignment_id, teacher_id=teacher_id,
+                                       assignment_name=assignment_name)
         return cls(assignment=assignment)
 
 

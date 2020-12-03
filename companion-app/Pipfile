@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 python-socketio = {extras = ["client"], version = "*"}
 eventlet = "*"
+python-dotenv = "*"
+gql = "*"
 
 [requires]
 python_version = "3.8"

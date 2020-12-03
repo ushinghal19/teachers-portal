@@ -67,12 +67,12 @@ class AssignmentType(DjangoObjectType):
 
     class Meta:
         model = Assignment
-        fields = ('assignment_id',)
+        fields = ('assignment_id', )
         filter_fields = ['assignment_id']
 
-    # THIS MIGHT BECOME AN ISSUE
     problems_below = graphene.List(ProblemType)
     # statistic = graphene.Field(StatisticType)
+    assignment_name = graphene.String()
 
     aggregate_errors = graphene.Int()
     problem_errors = GenericScalar()
@@ -93,6 +93,13 @@ class AssignmentType(DjangoObjectType):
 
     def resolve_students_by_errors(parent, info):
         return students_by_errors(parent)
+
+    def resolve_assignment_name(parent, info):
+        name = parent.assignment_name
+        if name:
+            return name
+        else:
+            return ""
 
 
 class TeacherType(DjangoObjectType):

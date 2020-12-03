@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
 from .models import Error, Problem
-ENABLED = True
+ENABLED = False
 
 
 def test_view(View):

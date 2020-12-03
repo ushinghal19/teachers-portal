@@ -101,6 +101,7 @@ class Assignment(models.Model):
     with array of problems.
     """
     assignment_id = models.CharField(max_length=1000, primary_key=True)
+    assignment_name = models.CharField(max_length=100, default="")
     problems = models.ArrayReferenceField(
         to=Problem,
         on_delete=models.CASCADE
@@ -108,7 +109,7 @@ class Assignment(models.Model):
     objects = models.DjongoManager()
 
     @staticmethod
-    def create(assignment_id: str, teacher_id: str):
+    def create(assignment_id: str, teacher_id: str, assignment_name: str):
         """
         USE THIS TO CREATE ASSIGNMENT
         Method to create assignment, identified with assignment_id argument.
@@ -117,7 +118,7 @@ class Assignment(models.Model):
         If Assignment exists already, raise error.
         """
         if not Assignment.objects.filter(assignment_id=assignment_id):
-            assignment = Assignment(assignment_id=assignment_id)
+            assignment = Assignment(assignment_id=assignment_id, assignment_name=assignment_name)
 
             try:
                 teacher = Teacher.objects.get(_id=ObjectId(teacher_id))

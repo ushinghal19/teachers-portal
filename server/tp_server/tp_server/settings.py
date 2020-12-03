@@ -13,7 +13,7 @@ import logging
 import os
 from pathlib import Path
 
-# loading dotenv vila
+# loading dotenv file
 from dotenv import load_dotenv
 
 load_dotenv()
