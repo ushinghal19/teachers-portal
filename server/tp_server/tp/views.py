@@ -21,7 +21,3 @@ def test_view(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class PrivateGraphQLView(GraphQLView):
     pass
-
-@method_decorator(csrf_exempt, name='dispatch')
-class CompanionAppGraphQLView(GraphQLView):
-    pass

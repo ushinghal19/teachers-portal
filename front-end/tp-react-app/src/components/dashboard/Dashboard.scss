@@ -1,0 +1,58 @@
+.dashboard-page{
+	background-color: #E5E5E5;
+}
+.dashboard-box{
+	width:80%;
+	//position: absolute; 
+	margin-left: 50%;
+	top: 5%;
+    transform: translate(-50%);
+	margin-bottom: 4vh;
+}
+
+.loading-page{
+	padding-top: 10vh;
+	background-color: #E5E5E5;
+	padding-bottom: 7.5vh;
+}
+
+.refresh-button{
+	position: absolute;
+	top: 1.7vh;
+	right: 23.5vh;
+
+}
+
+.dashboard-content{
+
+	.row{
+		display:flex;
+		padding-bottom: 1%;
+		padding-top: 1%;
+		&.one{
+			width:100%;
+
+			.col{
+				&.one{
+				}
+				&.two{
+				}
+
+			}
+		}
+		&.two{
+			height:40vh;
+			width:100%;
+			.col{
+				&.one{
+				}
+			}
+		}
+		&.three{
+			height:40vh;
+			width:100%;
+
+		}
+	}
+}
+
