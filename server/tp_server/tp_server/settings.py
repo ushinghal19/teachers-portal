@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-# loading dotenv vila
+# loading dotenv file
 from dotenv import load_dotenv
 load_dotenv()
 
