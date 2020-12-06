@@ -9,7 +9,7 @@ class LoginPage extends Component {
         <div className="LoginPage">
             <img src={wave} className="Login-wave" alt="waves" />
             <header className="tp-head">
-                <h1>hypatia Teacher's Portal</h1>
+                <h1>Welcome to Teacher's Portal</h1>
             </header>
             <br/>
             <LoginForm/>
