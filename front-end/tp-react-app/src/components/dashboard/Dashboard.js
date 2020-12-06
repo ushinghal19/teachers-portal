@@ -1,23 +1,32 @@
 import React, {Component} from 'react'
+// styling imports
 import './Dashboard.scss'
 import '../login/LoginPage.scss'
+// dashboard components
 import TotalErrors from './TotalErrors.js'
 import LeastErrors from './LeastErrors.js'
 import MostErrors from './MostErrors.js'
 import ErrorsPerQuestion from './ErrorsPerQuestion.js'
 import ErrorType from './ErrorType.js'
 import AverageTime from './AverageTime.js'
-import RingLoader from 'react-spinners/RingLoader'
+// loading animation
 import { css } from '@emotion/core'
+import RingLoader from 'react-spinners/RingLoader'
+// refresh button
 import Button from 'react-bootstrap/Button'
 import { ArrowRepeat } from 'react-bootstrap-icons'
 
 const URL = 'http://localhost:8000/graphql';
 
 class Dashboard extends Component{
-	// Use forceupdate for button: https://reactjs.org/docs/react-component.html#forceupdate 
 	constructor(props) {
 		super(props);
+		
+		// State of dashboard component:
+		// error: used to store any potential errors during fetch function
+		// isLoaded: boolean for storing True when API results are returned
+		// statistics: object used to store the API results
+		// id: used to store the assignment id to make the API request
 		this.state = {
 		  error: this.props.error,
 		  isLoaded: this.props.isLoaded,
@@ -27,6 +36,7 @@ class Dashboard extends Component{
 	  }
 	
 	getAssignmentStats(id){
+		// function to set the statistics prop to results from API
 		fetch(URL, {
 			method: 'POST',
 			headers: {
@@ -42,11 +52,13 @@ class Dashboard extends Component{
 			.then(res => res.json())
 			.then((result) => {
 								this.setState({
+									// handle succesful API call
 									isLoaded: true,
 									statistics: result.data
 								});
 							},
 							(error) => {
+								// handle unsuccessful API call by return the error recieved
 								this.setState({
 								  isLoaded: true,
 								  error
@@ -56,10 +68,12 @@ class Dashboard extends Component{
 	}
 
 	componentDidMount() {
+		// make API call when components load
 		this.getAssignmentStats(this.state.id)
 	}
 
 	handleRefresh = e => {
+		// handle refresh button click
 		e.preventDefault();
 		this.setState({isLoaded: false});
 		this.getAssignmentStats(this.state.id);
@@ -70,6 +84,7 @@ class Dashboard extends Component{
 		if (error) {
 		return <div>Error: {error.message}</div>;
 		} else if (!isLoaded) {
+			// handle loading screen
 			const loader = css`
 				display: block;
 				margin: 0 auto;
@@ -87,6 +102,7 @@ class Dashboard extends Component{
 					</div>
 			);
 		} else {
+			// everything is successful, display the data
 		return(
 			<div className = 'dashboard-page'>
 				<Button className='refresh-button' size='lg' variant="info" onClick={e => this.handleRefresh(e)}>Refresh <ArrowRepeat size={25}/></Button>
