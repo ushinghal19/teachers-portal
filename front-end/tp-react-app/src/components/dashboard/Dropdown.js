@@ -44,7 +44,7 @@ class Dropdown extends Component{
           "Referer": "http://localhost:3000",
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teachers(id: $id){assignmentsBelow{assignmentId}}}',
+        body: JSON.stringify({ query: 'query getTeacherAssignments($id: ID!){teachers(id: $id){assignmentsBelow{assignmentId,assignmentName}}}',
           variables: {"id": id},
           operationName: "getTeacherAssignments",
         }),
@@ -54,7 +54,11 @@ class Dropdown extends Component{
                   var TeacherAssignments = result.data.teachers[0].assignmentsBelow;
                   var allAssignments = [];
                   for (let i = 0; i < TeacherAssignments.length; i++) {
-                    allAssignments.push({value: TeacherAssignments[i].assignmentId, label: "Assignment "+TeacherAssignments[i].assignmentId})
+                    var assignmentLabel = "Assignment "+TeacherAssignments[i].assignmentId;   // Set assignment name to the id nubmer
+                    if (!TeacherAssignments[i].assignmentName==""){                           // If assignment has a name us it
+                      assignmentLabel = TeacherAssignments[i].assignmentName;  
+                    }
+                    allAssignments.push({value: TeacherAssignments[i].assignmentId, label: assignmentLabel})
                     }
                     this.setState({options: allAssignments})
                 },

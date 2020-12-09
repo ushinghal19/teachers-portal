@@ -5,7 +5,12 @@ import Button from 'react-bootstrap/Button';
 import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
+    // this component is the login box used on the LoginPage
     constructor(props) {
+        // State for login component:
+        // username: store the username inputted
+        // password: store the password inputted
+        // successfulLogin: boolean for if login was valid
 		super(props);
 		this.state = {
           username: "",
@@ -15,22 +20,24 @@ class Login extends Component {
 	  }
 	
     handleFormChange = (e, key) => {
+        // handle the username and password state
         this.setState({[key]: e.target.value});
     }
 
     handleFormSubmit = e => {
-        //if not successful (api returns 401 or 400 error I think):
+        // TODO: handle login verification
 
-        //render in an error message
+        // if not successful (api returns 400 error):
+        // render in an error message for user
 
-        //if login successful:
+        // if login successful redirect to dashboard
         e.preventDefault();
         this.setState({ successfulLogin: "/dashboard"});
     }
 
     render() {
         if (this.state.successfulLogin){
-            return <Redirect to={this.state.successfulLogin} />
+            return <Redirect to={this.state.successfulLogin}/>
         }
         return (
             <div className='LoginBox'>
