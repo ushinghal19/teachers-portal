@@ -3,8 +3,8 @@ import requests
 from gql.transport.requests import RequestsHTTPTransport
 from requests import Response
 
-with open('schema.graphql') as f:
-    schema_str = f.read()
+# with open('schema.graphql') as f:
+#     schema_str = f.read()
 
 
 def create_assignment(url: str, assignment_id: str, teacher_id: str, assignment_name: str) -> Response:
