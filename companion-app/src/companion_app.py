@@ -8,7 +8,7 @@ import json
 
 from dotenv import load_dotenv
 
-from src.tp_gateway import create_assignment, create_error
+from tp_gateway import create_assignment, create_error
 
 load_dotenv()
 
