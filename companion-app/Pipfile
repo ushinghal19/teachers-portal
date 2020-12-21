@@ -9,7 +9,7 @@ verify_ssl = true
 python-socketio = {extras = ["client"], version = "*"}
 eventlet = "*"
 python-dotenv = "*"
-gql = "*"
+#gql = "*"
 
 [requires]
 python_version = "3.8"

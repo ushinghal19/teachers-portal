@@ -57,7 +57,7 @@ def create_error(url: str, assignment_id: str, error_id: str, error_type: str,
                  'studentName': student_name}
 
     body = {"query": mutation_string, "variables": variables}
-
+    print(f"id: {error_id}")
     r = requests.post(url, json=body)
     return r
 

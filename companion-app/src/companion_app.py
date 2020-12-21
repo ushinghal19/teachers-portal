@@ -20,9 +20,11 @@ PROD_ENDPOINT = r''
 DEV_ENDPOINT = r'http://127.0.0.1:8000/graphql'
 CURRENT_ENDPOINT = ''
 
-POSSIBLE_ERRORS = ['Fraction Error', 'Divison Error', 'Trig Error', 'Possible Division By Zero',
-                   'Order Of Operation', 'Assumed Parentheses', 'Improper Distribution',
-                   'Cancelling Error', 'Square Root Error']
+POSSIBLE_ERRORS = ['Fraction Error', 'Trig Error', 'Order Of Operation'
+    # 'Fraction Error', 'Divison Error', 'Trig Error', 'Possible Division By Zero',
+    #                'Order Of Operation', 'Assumed Parentheses', 'Improper Distribution',
+    #                'Cancelling Error', 'Square Root Error'
+                   ]
 
 @sio.event
 def connect(sid: int, environ: dict) -> None:
